@@ -63,6 +63,7 @@ func makeLogOpts(count int) *dao.LogOptions {
 		Path:      "fred",
 		Container: "blee",
 		Lines:     int64(count),
+		Buffer:    int64(count),
 	}
 }
 
