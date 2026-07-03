@@ -1,0 +1,16 @@
+ Waiting for logs...
+.ddddddddddddddddddd
+ red error plain
+.bbbbbbbbbcccccc
+ bold green tail
+.aaaaaaaaaaccccc
+
+
+
+
+--- style legend ---
+. = fg=default bg=#000000 attr=none
+a = fg=#008000 bg=#000000 attr=bold
+b = fg=#800000 bg=#000000 attr=none
+c = fg=#87cefa bg=#000000 attr=none
+d = fg=#ffa500 bg=#000000 attr=dim

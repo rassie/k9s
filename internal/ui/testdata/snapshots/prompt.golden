@@ -1,0 +1,13 @@
+┌──────────────────────────────────────┐
+
+│ 🐶 > pods                             │
+.dceccbbaaddddddddddddddddddddddddddddd
+└──────────────────────────────────────┘
+
+--- style legend ---
+. = fg=#00ffff bg=#000000 attr=none
+a = fg=#1e90ff bg=#000000 attr=none
+b = fg=#5f9ea0 bg=#000000 attr=bold
+c = fg=#5f9ea0 bg=#000000 attr=none
+d = fg=default bg=#000000 attr=none
+e = fg=default bg=default attr=none

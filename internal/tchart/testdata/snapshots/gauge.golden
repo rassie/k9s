@@ -1,0 +1,21 @@
+
+
+
+
+               ╺━┓┏━╸ ━━┓
+...............aaaaaa.bbb
+              ↑┏━┛┗━┓⠔╺━┫↑
+..............aaaaaaacbbbb
+               ┗━╸╺━┛ ━━┛
+...............aaaaaa.bbb
+
+
+
+
+
+
+--- style legend ---
+. = fg=default bg=#000000 attr=none
+a = fg=#008000 bg=default attr=none
+b = fg=#ffa500 bg=default attr=none
+c = fg=default bg=default attr=none

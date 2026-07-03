@@ -1,0 +1,7 @@
+  <c1>   <c2>   <c3>
+.aaaaaacaaaaaacbbbbbbc
+--- style legend ---
+. = fg=default bg=#000000 attr=none
+a = fg=#000000 bg=#00ffff attr=bold
+b = fg=#000000 bg=#ffa500 attr=bold
+c = fg=#ffffff bg=#000000 attr=none

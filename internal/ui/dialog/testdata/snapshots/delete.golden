@@ -1,0 +1,40 @@
+
+
+
+
+
+
+                     ┌────────<Delete>─────────┐
+.....................cccccccccbbbbbbbbcccccccccc
+                     │                         │
+.....................c.........................c
+                     │    Delete pod fred?     │
+.....................c....dddddddddddddddd.....c
+                     │                         │
+.....................c.........................c
+                     │ Propagation: Background │
+.....................c.eeeeeeeeeeee.eeeeeeeeee.c
+                     │ Force:                  │
+.....................c.eeeeee.......e..........c
+                     │                         │
+.....................c.........................c
+                     │      Cancel     OK      │
+.....................c....ffaaaaaaff...dd......c
+                     │                         │
+.....................c.........................c
+                     └─────────────────────────┘
+.....................ccccccccccccccccccccccccccc
+
+
+
+
+
+
+--- style legend ---
+. = fg=default bg=#000000 attr=none
+a = fg=#000000 bg=#1e90ff attr=none
+b = fg=#00ffff bg=#000000 attr=none
+c = fg=#1e90ff bg=#000000 attr=none
+d = fg=#5f9ea0 bg=#000000 attr=none
+e = fg=#ffffff bg=#000000 attr=none
+f = fg=default bg=#1e90ff attr=none
