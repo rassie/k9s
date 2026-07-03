@@ -1,0 +1,8 @@
+  AllContainers:Off     Autoscroll:On      ColumnLock:Off     FullScreen:Off     Timestamps:Off     Wrap:Off
+dd..............cccaaaaa...........bbaaaaaa...........cccaaaaa...........cccaaaaa...........cccaaaaa.....cccdd
+--- style legend ---
+. = fg=#1e90ff bg=#000000 attr=bold
+a = fg=#1e90ff bg=#000000 attr=none
+b = fg=#32cd32 bg=#000000 attr=bold
+c = fg=#808080 bg=#000000 attr=dim
+d = fg=default bg=#000000 attr=none

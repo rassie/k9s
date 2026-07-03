@@ -1,0 +1,22 @@
+┌──────────────────────────────────────┐
+dddddddddddddddddddddddddddddddddddddddd
+│ root                                 │
+d.aaaa.................................d
+│ ├──child-1                           │
+d.bbbccccccc...........................d
+│ │  └──leaf                           │
+d.b..bbbcccc...........................d
+│ └──child-2                           │
+d.bbbccccccc...........................d
+│                                      │
+d......................................d
+│                                      │
+d......................................d
+└──────────────────────────────────────┘
+dddddddddddddddddddddddddddddddddddddddd
+--- style legend ---
+. = fg=default bg=#000000 attr=none
+a = fg=#000000 bg=#ffffff attr=none
+b = fg=#5f9ea0 bg=#000000 attr=none
+c = fg=#ffffff bg=#000000 attr=none
+d = fg=#ffffff bg=default attr=bold

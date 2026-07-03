@@ -1,0 +1,12 @@
+ <0> All   <a>      Attach
+dbbbbccccddaaaaaaaaaccccccc
+           <ctrl-d> Delete
+.........ddaaaaaaaaaccccccc
+
+.........d
+--- style legend ---
+. = fg=default bg=#000000 attr=none
+a = fg=#1e90ff bg=#000000 attr=bold
+b = fg=#ff00ff bg=#000000 attr=bold
+c = fg=#ffffff bg=#000000 attr=dim
+d = fg=#ffffff bg=#000000 attr=none

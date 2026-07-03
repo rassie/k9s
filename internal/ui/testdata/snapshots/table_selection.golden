@@ -1,0 +1,22 @@
+┌───────────────────── fred(blee)[2] ──────────────────────┐
+ddddddddddddddddddddddhbbbbbffffccgccddddddddddddddddddddddd
+│ A                  B                 C                   │
+d.e.................hh................hh...................d
+│ blee               duh               fred                │
+d.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.d
+│ blee               duh               zorg                │
+d.ccccc.............hcccc.............hccccc...............d
+│                                                          │
+d..........................................................d
+└──────────────────────────────────────────────────────────┘
+dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+--- style legend ---
+. = fg=default bg=#000000 attr=none
+a = fg=#000000 bg=#00ffff attr=bold
+b = fg=#00ffff bg=#000000 attr=bold
+c = fg=#00ffff bg=#000000 attr=none
+d = fg=#1e90ff bg=#000000 attr=bold
+e = fg=#87cefa bg=#000000 attr=none
+f = fg=#ff00ff bg=#000000 attr=bold
+g = fg=#ffefd5 bg=#000000 attr=bold
+h = fg=#ffffff bg=#000000 attr=none

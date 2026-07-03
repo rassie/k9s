@@ -1,0 +1,30 @@
+
+
+
+
+
+
+                      ┌─<Container>─┐
+......................ccbbbbbbbbbbbcc
+                      │             │
+......................c.............c
+                      │ nginx       │
+......................c.aaaaa.......c
+                      │ istio-proxy │
+......................c.ddddddddddd.c
+                      │             │
+......................c.............c
+                      └─────────────┘
+......................ccccccccccccccc
+
+
+
+
+
+
+--- style legend ---
+. = fg=default bg=#000000 attr=none
+a = fg=#000000 bg=#1e90ff attr=none
+b = fg=#00ffff bg=#000000 attr=none
+c = fg=#1e90ff bg=#000000 attr=none
+d = fg=#5f9ea0 bg=#000000 attr=none
