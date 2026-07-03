@@ -45,6 +45,37 @@ func TestLogFullBuffer(t *testing.T) {
 	assert.Equal(t, 0, v.errCalled)
 }
 
+func TestLogRetentionBeyondTailCount(t *testing.T) {
+	uu := map[string]struct {
+		buffer int64
+		want   int
+	}{
+		"buffer-bound":     {buffer: 8, want: 6},
+		"unbounded-buffer": {buffer: 0, want: 6},
+		"rotating":         {buffer: 4, want: 4},
+	}
+
+	for k := range uu {
+		u := uu[k]
+		t.Run(k, func(t *testing.T) {
+			opts := makeLogOpts(2) // tail fetch count of 2 must not cap retention
+			opts.Buffer = u.buffer
+			m := model.NewLog(client.NewGVR("fred"), opts, 10*time.Millisecond)
+			m.Init(makeFactory())
+
+			v := newTestView()
+			m.AddListener(v)
+
+			for i := range 6 {
+				m.Append(dao.NewLogItemFromString("line" + strconv.Itoa(i)))
+			}
+			m.Notify()
+
+			assert.Len(t, v.data, u.want)
+		})
+	}
+}
+
 func TestLogFilter(t *testing.T) {
 	uu := map[string]struct {
 		q string
@@ -247,6 +278,7 @@ func makeLogOpts(count int) *dao.LogOptions {
 		Path:      "fred",
 		Container: "blee",
 		Lines:     int64(count),
+		Buffer:    int64(count),
 	}
 }
 
