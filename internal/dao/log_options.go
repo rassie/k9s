@@ -20,6 +20,7 @@ type LogOptions struct {
 	DefaultContainer string
 	SinceTime        string
 	Lines            int64
+	Buffer           int64
 	SinceSeconds     int64
 	Head             bool
 	Previous         bool
@@ -46,6 +47,7 @@ func (o *LogOptions) Clone() *LogOptions {
 		Container:        o.Container,
 		DefaultContainer: o.DefaultContainer,
 		Lines:            o.Lines,
+		Buffer:           o.Buffer,
 		Previous:         o.Previous,
 		Head:             o.Head,
 		SingleContainer:  o.SingleContainer,
@@ -101,6 +103,11 @@ func (o *LogOptions) ToPodLogOptions() *v1.PodLogOptions {
 
 	if o.SinceSeconds != 0 {
 		opts.SinceSeconds, opts.SinceTime = &o.SinceSeconds, nil
+		// The time window governs which lines to fetch; don't also cap by the
+		// (small) tail count or the window is silently truncated to the last
+		// Lines entries on a busy pod. Bound the fetch by the retention buffer
+		// instead (nil == unbounded, e.g. full-log mode).
+		opts.TailLines = o.bufferLimit()
 		return &opts
 	}
 
@@ -112,6 +119,15 @@ func (o *LogOptions) ToPodLogOptions() *v1.PodLogOptions {
 	}
 
 	return &opts
+}
+
+// bufferLimit returns the retention buffer as a tail bound, or nil when the
+// buffer is unbounded (Buffer <= 0), e.g. for full-log mode.
+func (o *LogOptions) bufferLimit() *int64 {
+	if o.Buffer <= 0 {
+		return nil
+	}
+	return &o.Buffer
 }
 
 // ToLogItem add a log header to display po/co information along with the log message.
