@@ -109,6 +109,7 @@ func (l *Log) SetSinceSeconds(ctx context.Context, i int64) {
 // Configure sets logger configuration.
 func (l *Log) Configure(opts config.Logger) {
 	l.logOptions.Lines = opts.TailCount
+	l.logOptions.Buffer = int64(opts.BufferSize)
 	l.logOptions.SinceSeconds = opts.SinceSeconds
 	l.logOptions.LogBufferSize = opts.LogBufferSize
 }
@@ -250,7 +251,10 @@ func (l *Log) Append(line *dao.LogItem) {
 	l.mx.Lock()
 	defer l.mx.Unlock()
 	l.logOptions.SinceTime = line.GetTimestamp()
-	if l.lines.Len() < int(l.logOptions.Lines) {
+	// Retention is governed by the buffer, not the (small) tail fetch count, so
+	// scrollback and filtering see the full retained history rather than only
+	// the last Lines entries. Buffer <= 0 means unbounded (full-log mode).
+	if l.logOptions.Buffer <= 0 || l.lines.Len() < int(l.logOptions.Buffer) {
 		l.lines.Add(line)
 		return
 	}
