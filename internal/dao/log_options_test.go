@@ -43,6 +43,20 @@ func TestLogOptionsToPodLogOptionsTailLines(t *testing.T) {
 	}
 }
 
+func TestLogOptionsToPodLogOptionsFullLog(t *testing.T) {
+	limit := int64(50 * 1024 * 1024)
+	opts := dao.LogOptions{Lines: 100, Buffer: 5000, SinceSeconds: 300, FullLog: true, LimitBytes: limit}
+	plo := opts.ToPodLogOptions()
+
+	// Full log is a bounded, non-following snapshot from the container start:
+	// no tail/since anchors, capped only by LimitBytes.
+	assert.False(t, plo.Follow)
+	assert.Nil(t, plo.TailLines)
+	assert.Nil(t, plo.SinceSeconds)
+	assert.Nil(t, plo.SinceTime)
+	assert.Equal(t, &limit, plo.LimitBytes)
+}
+
 func TestLogOptionsToggleAllContainers(t *testing.T) {
 	uu := map[string]struct {
 		opts dao.LogOptions

@@ -76,6 +76,24 @@ func TestLogRetentionBeyondTailCount(t *testing.T) {
 	}
 }
 
+func TestLogFullLogRetention(t *testing.T) {
+	opts := makeLogOpts(2)
+	opts.Buffer = 4     // a small ring...
+	opts.FullLog = true // ...that full-log must override, keeping everything
+	m := model.NewLog(client.NewGVR("fred"), opts, 10*time.Millisecond)
+	m.Init(makeFactory())
+
+	v := newTestView()
+	m.AddListener(v)
+
+	for i := range 10 {
+		m.Append(dao.NewLogItemFromString("line" + strconv.Itoa(i)))
+	}
+	m.Notify()
+
+	assert.Len(t, v.data, 10)
+}
+
 func TestLogFilter(t *testing.T) {
 	uu := map[string]struct {
 		q string

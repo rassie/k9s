@@ -21,8 +21,10 @@ type LogOptions struct {
 	SinceTime        string
 	Lines            int64
 	Buffer           int64
+	LimitBytes       int64
 	SinceSeconds     int64
 	Head             bool
+	FullLog          bool
 	Previous         bool
 	SingleContainer  bool
 	MultiPods        bool
@@ -48,8 +50,10 @@ func (o *LogOptions) Clone() *LogOptions {
 		DefaultContainer: o.DefaultContainer,
 		Lines:            o.Lines,
 		Buffer:           o.Buffer,
+		LimitBytes:       o.LimitBytes,
 		Previous:         o.Previous,
 		Head:             o.Head,
+		FullLog:          o.FullLog,
 		SingleContainer:  o.SingleContainer,
 		MultiPods:        o.MultiPods,
 		ShowTimestamp:    o.ShowTimestamp,
@@ -95,6 +99,18 @@ func (o *LogOptions) ToPodLogOptions() *v1.PodLogOptions {
 		opts.Follow = false
 		opts.TailLines, opts.SinceSeconds, opts.SinceTime = nil, nil, nil
 		opts.LimitBytes = &maxBytes
+		return &opts
+	}
+	if o.FullLog {
+		// Fetch the whole retained log from the container's start as a bounded,
+		// non-following snapshot: no tail/since anchors, capped by LimitBytes so
+		// memory can't grow without bound (the kube API offers no size preflight
+		// and no server-side content filter, only this byte cap).
+		opts.Follow = false
+		opts.TailLines, opts.SinceSeconds, opts.SinceTime = nil, nil, nil
+		if o.LimitBytes > 0 {
+			opts.LimitBytes = &o.LimitBytes
+		}
 		return &opts
 	}
 	if o.SinceSeconds < 0 {
