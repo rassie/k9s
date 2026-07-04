@@ -87,6 +87,14 @@ func (l *Log) IsHead() bool {
 	return l.logOptions.Head
 }
 
+// IsFullLog returns whether the full-log snapshot mode is active.
+func (l *Log) IsFullLog() bool {
+	l.mx.RLock()
+	defer l.mx.RUnlock()
+
+	return l.logOptions.FullLog
+}
+
 // ToggleShowTimestamp toggles to logs timestamps.
 func (l *Log) ToggleShowTimestamp(b bool) {
 	l.logOptions.ShowTimestamp = b
@@ -95,14 +103,25 @@ func (l *Log) ToggleShowTimestamp(b bool) {
 
 func (l *Log) Head(ctx context.Context) {
 	l.mx.Lock()
-	l.logOptions.Head = true
+	l.logOptions.Head, l.logOptions.FullLog = true, false
+	l.mx.Unlock()
+	l.Restart(ctx)
+}
+
+// FullLog fetches the whole retained log as a bounded, non-following snapshot.
+func (l *Log) FullLog(ctx context.Context) {
+	l.mx.Lock()
+	l.logOptions.FullLog, l.logOptions.Head = true, false
+	l.logOptions.LimitBytes = config.DefaultFullLogLimitBytes
 	l.mx.Unlock()
 	l.Restart(ctx)
 }
 
 // SetSinceSeconds sets the logs retrieval time.
 func (l *Log) SetSinceSeconds(ctx context.Context, i int64) {
-	l.logOptions.SinceSeconds, l.logOptions.Head = i, false
+	l.mx.Lock()
+	l.logOptions.SinceSeconds, l.logOptions.Head, l.logOptions.FullLog = i, false, false
+	l.mx.Unlock()
 	l.Restart(ctx)
 }
 
@@ -253,8 +272,9 @@ func (l *Log) Append(line *dao.LogItem) {
 	l.logOptions.SinceTime = line.GetTimestamp()
 	// Retention is governed by the buffer, not the (small) tail fetch count, so
 	// scrollback and filtering see the full retained history rather than only
-	// the last Lines entries. Buffer <= 0 means unbounded (full-log mode).
-	if l.logOptions.Buffer <= 0 || l.lines.Len() < int(l.logOptions.Buffer) {
+	// the last Lines entries. Full-log keeps everything (the fetch is bounded by
+	// LimitBytes and doesn't follow); Buffer <= 0 also means unbounded.
+	if l.logOptions.FullLog || l.logOptions.Buffer <= 0 || l.lines.Len() < int(l.logOptions.Buffer) {
 		l.lines.Add(line)
 		return
 	}

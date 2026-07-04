@@ -15,6 +15,11 @@ const (
 
 	// DefaultLogBufferSize is the channel buffer for log streaming.
 	DefaultLogBufferSize = 50
+
+	// DefaultFullLogLimitBytes caps a full-log snapshot fetch. The kube API has
+	// no way to preflight log size, so this byte cap bounds both the transfer and
+	// the retained memory when the user opts into "full logs".
+	DefaultFullLogLimitBytes = 50 * 1024 * 1024
 )
 
 // Logger tracks logger options.

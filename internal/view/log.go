@@ -252,6 +252,7 @@ func (l *Log) bindKeys() {
 	l.logs.Actions().Bulk(ui.KeyMap{
 		ui.Key0:         ui.NewKeyAction("tail", l.sinceCmd(-1), true),
 		ui.Key1:         ui.NewKeyAction("head", l.sinceCmd(0), true),
+		ui.KeyShiftF:    ui.NewKeyAction("Full logs", l.fullLogCmd, true),
 		ui.Key2:         ui.NewKeyAction("1m", l.sinceCmd(60), true),
 		ui.Key3:         ui.NewKeyAction("5m", l.sinceCmd(5*60), true),
 		ui.Key4:         ui.NewKeyAction("15m", l.sinceCmd(15*60), true),
@@ -317,6 +318,9 @@ func (l *Log) updateTitle() {
 	}
 	if l.model.IsHead() {
 		since = "head"
+	}
+	if l.model.IsFullLog() {
+		since = "full"
 	}
 
 	title := " Logs"
@@ -390,11 +394,37 @@ func (l *Log) sinceCmd(n int) func(evt *tcell.EventKey) *tcell.EventKey {
 		} else {
 			l.model.SetSinceSeconds(ctx, int64(n))
 		}
+		l.applyRetentionBound()
 		l.requestOneRefresh = true
 		l.updateTitle()
 
 		return nil
 	}
+}
+
+func (l *Log) fullLogCmd(evt *tcell.EventKey) *tcell.EventKey {
+	if l.app.InCmdMode() {
+		return evt
+	}
+	l.logs.Clear()
+	l.model.FullLog(l.getContext())
+	l.applyRetentionBound()
+	l.requestOneRefresh = true
+	l.app.Flash().Infof("Loading full logs (capped at %d MiB)...", config.DefaultFullLogLimitBytes/(1024*1024))
+	l.updateTitle()
+
+	return nil
+}
+
+// applyRetentionBound keeps the view's line cap in sync with the fetch mode:
+// full-log retains everything (bounded by the byte-limited fetch), every other
+// mode stays capped at the configured buffer size.
+func (l *Log) applyRetentionBound() {
+	if l.model.IsFullLog() {
+		l.logs.SetMaxLines(0)
+		return
+	}
+	l.logs.SetMaxLines(l.app.Config.K9s.Logger.BufferSize)
 }
 
 func (l *Log) toggleAllContainers(evt *tcell.EventKey) *tcell.EventKey {
