@@ -366,13 +366,19 @@ func (l *Log) Flush(lines [][]byte) {
 	if l.requestOneRefresh {
 		l.requestOneRefresh = false
 	}
+	// Sample the scroll position before appending: only keep pinning to the end
+	// while the user is already at the bottom. If they've scrolled up to read
+	// history, new lines must not yank the viewport back; returning to the last
+	// line resumes following. (k9s used to ScrollToEnd on every flush, which
+	// defeated tview's own "stop tracking when scrolled up" behavior.)
+	atBottom := l.atBottom()
 	for i := range lines {
 		if l.cancelUpdates {
 			break
 		}
 		_, _ = l.ansiWriter.Write(lines[i])
 	}
-	if l.follow {
+	if l.follow && atBottom {
 		if l.columnLock {
 			// Enables end tracking without resetting column
 			l.logs.SetScrollable(false).SetScrollable(true)
@@ -380,6 +386,16 @@ func (l *Log) Flush(lines [][]byte) {
 			l.logs.ScrollToEnd()
 		}
 	}
+}
+
+// atBottom reports whether the log viewport is at (or within one line of) the
+// end, i.e. the user has not scrolled up to read earlier output. Measured
+// against the unwrapped line count, so it's approximate when wrap is on.
+func (l *Log) atBottom() bool {
+	row, _ := l.logs.GetScrollOffset()
+	_, _, _, h := l.logs.GetInnerRect()
+
+	return row+h >= l.logs.GetOriginalLineCount()-1
 }
 
 // ----------------------------------------------------------------------------
