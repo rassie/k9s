@@ -11,7 +11,9 @@ import (
 
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tview"
+	"github.com/derailed/k9s/internal/ui/tviewx"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 )
 
 const pluginInputsKey = "pluginInputs"
@@ -45,10 +47,9 @@ func ShowPluginInputs(
 	f := tview.NewForm()
 	f.SetItemPadding(0)
 	f.SetButtonsAlign(tview.AlignCenter).
-		SetButtonBackgroundColor(styles.ButtonBgColor.Color()).
-		SetButtonTextColor(styles.ButtonFgColor.Color()).
 		SetLabelColor(styles.LabelFgColor.Color()).
 		SetFieldTextColor(styles.FieldFgColor.Color())
+	StyleFormButtons(f, styles)
 
 	// Add input fields based on type
 	for _, input := range inputs {
@@ -90,7 +91,7 @@ func ShowPluginInputs(
 			defaultChecked := input.Default == "true"
 			values[input.Name] = input.Default
 			inputName := input.Name
-			f.AddCheckbox(label, defaultChecked, func(_ string, checked bool) {
+			f.AddCheckbox(label, defaultChecked, func(checked bool) {
 				values[inputName] = fmt.Sprintf("%t", checked)
 			})
 
@@ -110,8 +111,8 @@ func ShowPluginInputs(
 				if dropDown := f.GetFormItemByLabel(label); dropDown != nil {
 					if dd, ok := dropDown.(*tview.DropDown); ok {
 						dd.SetListStyles(
-							styles.FgColor.Color(), styles.BgColor.Color(),
-							styles.ButtonFocusFgColor.Color(), styles.ButtonFocusBgColor.Color(),
+							tcell.StyleDefault.Foreground(styles.FgColor.Color()).Background(styles.BgColor.Color()),
+							tcell.StyleDefault.Foreground(styles.ButtonFocusFgColor.Color()).Background(styles.ButtonFocusBgColor.Color()),
 						)
 					}
 				}
@@ -156,18 +157,9 @@ func ShowPluginInputs(
 		cancel()
 	})
 
-	// Style buttons
-	buttonCount := f.GetButtonCount()
-	for i := range buttonCount {
-		if b := f.GetButton(i); b != nil {
-			b.SetBackgroundColorActivated(styles.ButtonFocusBgColor.Color())
-			b.SetLabelColorActivated(styles.ButtonFocusFgColor.Color())
-		}
-	}
-
 	f.SetFocus(0)
 
-	modal := tview.NewModalForm("<"+title+">", f)
+	modal := tviewx.NewModalForm("<"+title+">", f)
 	modal.SetTextColor(styles.FgColor.Color())
 	modal.SetDoneFunc(func(int, string) {
 		dismissPluginInputs(pages)

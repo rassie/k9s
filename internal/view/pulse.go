@@ -16,9 +16,10 @@ import (
 	"github.com/derailed/k9s/internal/slogs"
 	"github.com/derailed/k9s/internal/tchart"
 	"github.com/derailed/k9s/internal/ui"
+	"github.com/derailed/k9s/internal/ui/tviewx"
 	"github.com/derailed/k9s/internal/view/cmd"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	"k8s.io/apimachinery/pkg/labels"
@@ -80,7 +81,7 @@ type Graphable interface {
 
 // Pulse represents a command health view.
 type Pulse struct {
-	*tview.Grid
+	*tviewx.Grid
 
 	app            *App
 	gvr            *client.GVR
@@ -95,7 +96,7 @@ type Pulse struct {
 // NewPulse returns a new alias view.
 func NewPulse(gvr *client.GVR) ResourceViewer {
 	return &Pulse{
-		Grid:           tview.NewGrid(),
+		Grid:           tviewx.NewGrid(),
 		model:          model.NewPulse(gvr),
 		actions:        ui.NewKeyActions(),
 		prevFocusIndex: -1,

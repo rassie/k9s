@@ -12,8 +12,9 @@ import (
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/model"
 	"github.com/derailed/k9s/internal/slogs"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/derailed/k9s/internal/ui/tviewx"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 )
 
 // App represents an application.
@@ -103,7 +104,7 @@ func (*App) BufferChanged(_, _ string) {}
 
 // BufferActive indicates the buff activity changed.
 func (a *App) BufferActive(state bool, _ model.BufferKind) {
-	flex, ok := a.Main.GetPrimitive("main").(*tview.Flex)
+	flex, ok := a.Main.GetPage("main").(*tviewx.Flex)
 	if !ok {
 		return
 	}
@@ -122,7 +123,7 @@ func (*App) SuggestionChanged([]string) {}
 // StylesChanged notifies the skin changed.
 func (a *App) StylesChanged(s *config.Styles) {
 	a.Main.SetBackgroundColor(s.BgColor())
-	if f, ok := a.Main.GetPrimitive("main").(*tview.Flex); ok {
+	if f, ok := a.Main.GetPage("main").(*tviewx.Flex); ok {
 		f.SetBackgroundColor(s.BgColor())
 		if !a.Config.K9s.IsHeadless() {
 			if h, ok := f.ItemAt(0).(*tview.Flex); ok {
@@ -284,13 +285,23 @@ func (a *App) Flash() *model.Flash {
 // Helpers...
 
 // AsKey converts rune to keyboard key.
+// AsKey maps a key event onto the single integer space that KeyActions uses for
+// dispatch. Special keys (including tcell.KeyCtrl*) keep their tcell value;
+// printable runes are encoded so they cannot collide with that space. Notably
+// Shift+<letter> arrives as an uppercase rune with no modifier — tcell never
+// reports ModShift for printable runes (it cannot reliably tell shift from
+// caps-lock) — and is mapped into k9s' private shift-key range. Encoding it as
+// the raw rune ('A'-'Z' == 65-90) would alias tcell.KeyCtrlA..KeyCtrlZ, which
+// occupy that range since tcell v2.10. See keyShiftBase.
 func AsKey(evt *tcell.EventKey) tcell.Key {
 	if evt.Key() != tcell.KeyRune {
 		return evt.Key()
 	}
-	key := tcell.Key(evt.Rune())
 	if evt.Modifiers() == tcell.ModAlt {
-		key = tcell.Key(int16(evt.Rune()) * int16(evt.Modifiers()))
+		return tcell.Key(int16(evt.Rune()) * int16(evt.Modifiers()))
 	}
-	return key
+	if r := evt.Rune(); r >= 'A' && r <= 'Z' {
+		return KeyShiftA + tcell.Key(r-'A')
+	}
+	return tcell.Key(evt.Rune())
 }

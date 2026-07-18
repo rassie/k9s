@@ -10,8 +10,8 @@ import (
 
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/model"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/derailed/k9s/internal/ui/tviewx"
+	"github.com/gdamore/tcell/v2"
 )
 
 const (
@@ -77,7 +77,7 @@ type PromptModel interface {
 
 // Prompt captures users free from command input.
 type Prompt struct {
-	*tview.TextView
+	*tviewx.TextView
 
 	app     *App
 	noIcons bool
@@ -95,7 +95,7 @@ func NewPrompt(app *App, noIcons bool, styles *config.Styles) *Prompt {
 		app:      app,
 		styles:   styles,
 		noIcons:  noIcons,
-		TextView: tview.NewTextView(),
+		TextView: tviewx.NewTextView(),
 		spacer:   defaultSpacer,
 	}
 	if noIcons {

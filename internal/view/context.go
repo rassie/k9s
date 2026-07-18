@@ -13,9 +13,10 @@ import (
 	"github.com/derailed/k9s/internal/slogs"
 	"github.com/derailed/k9s/internal/ui"
 	"github.com/derailed/k9s/internal/ui/dialog"
+	"github.com/derailed/k9s/internal/ui/tviewx"
 	"github.com/derailed/k9s/internal/view/cmd"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 )
 
 const (
@@ -98,10 +99,9 @@ func (c *Context) showRenameModal(name string, ok func(form *tview.Form, context
 	f := tview.NewForm().
 		SetItemPadding(0).
 		SetButtonsAlign(tview.AlignCenter).
-		SetButtonBackgroundColor(styles.ButtonBgColor.Color()).
-		SetButtonTextColor(styles.ButtonFgColor.Color()).
 		SetLabelColor(styles.LabelFgColor.Color()).
 		SetFieldTextColor(styles.FieldFgColor.Color())
+	dialog.StyleFormButtons(f, &styles)
 	f.AddInputField(inputField, name, 0, nil, nil).
 		AddButton("OK", func() {
 			if err := ok(f, name); err != nil {
@@ -114,19 +114,13 @@ func (c *Context) showRenameModal(name string, ok func(form *tview.Form, context
 			app.Content.RemovePage(renamePage)
 		})
 
-	m := tview.NewModalForm("<Rename>", f)
+	m := tviewx.NewModalForm("<Rename>", f)
 	m.SetText(fmt.Sprintf("Rename context %q?", name))
 	m.SetDoneFunc(func(int, string) {
 		app.Content.RemovePage(renamePage)
 	})
 	app.Content.AddPage(renamePage, m, false, false)
 	app.Content.ShowPage(renamePage)
-
-	for i := range f.GetButtonCount() {
-		f.GetButton(i).
-			SetBackgroundColorActivated(styles.ButtonFocusBgColor.Color()).
-			SetLabelColorActivated(styles.ButtonFocusFgColor.Color())
-	}
 }
 
 func (c *Context) useCtx(app *App, _ ui.Tabular, gvr *client.GVR, path string) {

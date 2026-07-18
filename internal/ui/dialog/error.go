@@ -9,8 +9,9 @@ import (
 
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/derailed/k9s/internal/ui/tviewx"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 )
 
 // ShowError pops an error dialog.
@@ -18,19 +19,14 @@ func ShowError(styles *config.Dialog, pages *ui.Pages, msg string) {
 	f := tview.NewForm()
 	f.SetItemPadding(0)
 	f.SetButtonsAlign(tview.AlignCenter).
-		SetButtonBackgroundColor(styles.ButtonBgColor.Color()).
-		SetButtonTextColor(styles.ButtonFgColor.Color()).
 		SetLabelColor(styles.LabelFgColor.Color()).
 		SetFieldTextColor(tcell.ColorIndianRed)
+	StyleFormButtons(f, styles)
 	f.AddButton("Dismiss", func() {
 		dismiss(pages)
 	})
-	if b := f.GetButton(0); b != nil {
-		b.SetBackgroundColorActivated(styles.ButtonFocusBgColor.Color())
-		b.SetLabelColorActivated(styles.ButtonFocusFgColor.Color())
-	}
 	f.SetFocus(0)
-	modal := tview.NewModalForm("<error>", f)
+	modal := tviewx.NewModalForm("<error>", f)
 	modal.SetText(cowTalk(msg))
 	modal.SetTextColor(tcell.ColorOrangeRed)
 	modal.SetDoneFunc(func(int, string) {

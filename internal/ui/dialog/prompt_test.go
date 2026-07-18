@@ -10,8 +10,9 @@ import (
 
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/derailed/k9s/internal/ui/tviewx"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -42,7 +43,7 @@ func TestShowPrompt(t *testing.T) {
 		}, func() {})
 
 		time.Sleep(time.Second / 2)
-		d := p.GetPrimitive(dialogKey).(*tview.ModalForm)
+		d := p.GetPage(dialogKey).(*tviewx.ModalForm)
 		if assert.NotNil(t, d) {
 			d.InputHandler()(tcell.NewEventKey(tcell.KeyEnter, '\n', 0), func(tview.Primitive) {})
 		}

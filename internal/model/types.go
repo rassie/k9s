@@ -11,7 +11,7 @@ import (
 	"github.com/derailed/k9s/internal/dao"
 	"github.com/derailed/k9s/internal/model1"
 	"github.com/derailed/k9s/internal/view/cmd"
-	"github.com/derailed/tview"
+	"github.com/rivo/tview"
 	"github.com/sahilm/fuzzy"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime"

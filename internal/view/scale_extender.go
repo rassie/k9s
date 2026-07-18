@@ -13,8 +13,10 @@ import (
 	"github.com/derailed/k9s/internal/dao"
 	"github.com/derailed/k9s/internal/slogs"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/derailed/k9s/internal/ui/dialog"
+	"github.com/derailed/k9s/internal/ui/tviewx"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 )
 
 // ScaleExtender adds scaling extensions.
@@ -73,7 +75,7 @@ func (s *ScaleExtender) showScaleDialog(paths []string) {
 		s.App().Flash().Err(err)
 		return
 	}
-	confirm := tview.NewModalForm("<Scale>", form)
+	confirm := tviewx.NewModalForm("<Scale>", form)
 	msg := fmt.Sprintf("Scale %s %s?", singularize(s.GVR().R()), paths[0])
 	if len(paths) > 1 {
 		msg = fmt.Sprintf("Scale [%d] %s?", len(paths), s.GVR().R())
@@ -158,10 +160,9 @@ func (s *ScaleExtender) makeScaleForm(fqns []string) (*tview.Form, error) {
 	f := tview.NewForm().
 		SetItemPadding(0).
 		SetButtonsAlign(tview.AlignCenter).
-		SetButtonBackgroundColor(styles.ButtonBgColor.Color()).
-		SetButtonTextColor(styles.ButtonFgColor.Color()).
 		SetLabelColor(styles.LabelFgColor.Color()).
 		SetFieldTextColor(styles.FieldFgColor.Color())
+	dialog.StyleFormButtons(f, &styles)
 
 	f.AddInputField("Replicas:", factor, 4, func(textToCheck string, _ rune) bool {
 		_, err := strconv.Atoi(textToCheck)
@@ -195,19 +196,6 @@ func (s *ScaleExtender) makeScaleForm(fqns []string) (*tview.Form, error) {
 	f.AddButton("Cancel", func() {
 		s.dismissDialog()
 	})
-	for i := range 2 {
-		if b := f.GetButton(i); b != nil {
-			b.SetBackgroundColorActivated(styles.ButtonFocusBgColor.Color())
-			b.SetLabelColorActivated(styles.ButtonFocusFgColor.Color())
-		}
-	}
-
-	for i := range f.GetButtonCount() {
-		f.GetButton(i).
-			SetBackgroundColorActivated(styles.ButtonFocusBgColor.Color()).
-			SetLabelColorActivated(styles.ButtonFocusFgColor.Color())
-	}
-
 	return f, nil
 }
 

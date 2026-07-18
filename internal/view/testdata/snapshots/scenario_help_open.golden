@@ -1,43 +1,43 @@
 
-hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-┌──────────────────────────────────── Help ────────────────────────────────────┐
-fffffffffffffffffffffffffffffffffffff.dddddfffffffffffffffffffffffffffffffffffff
-│ RESOURCE                       GENERAL                              NAVIGATI │
-fhcccccccch.ccccccccchhhhhhhhhhh.ccccccchhhhhh.ccccccccccccchhhhhhhhh.cccccccchf
-│ <?>       Help                 <ctrl-a>      Aliases                <j>      │
-fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
-│ <shift-a> Sort Age             <q>           Back                   <shift-g │
-fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
-│ <shift-n> Sort Name            <esc>         Back/Clear             <g>      │
-fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
-│ <shift-p> Sort Namespace       <ctrl-u>      Command Clear          <[>      │
-fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
-│ <shift-o> Sort Selected Column <:cmd>        Command mode           <]>      │
-fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
-│ <shift-s> Sort Status          <tab>         Field Next             <->      │
-fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
-│ <ctrl-z>  Toggle Faults        <backtab>     Field Previous         <h>      │
-fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
-│ <ctrl-w>  Toggle Wide          </term>       Filter mode            <ctrl-f> │
-fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
-│                                <?>           Help                   <ctrl-b> │
-fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
-│                                <space>       Mark                   <l>      │
-fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
-│                                <ctrl-\>      Mark Clear             <k>      │
-fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
-│                                <ctrl-space>  Mark Range                      │
-fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
-│                                <:q>          Quit                            │
-fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
-│                                <ctrl-r>      Reload                          │
-fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
-└──────────────────────────────────────────────────────────────────────────────┘
-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+╔════════════════════════════════════ Help ════════════════════════════════════╗
+eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.dddddeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+║ RESOURCE                       GENERAL                              NAVIGAT… ║
+egccccccccg.cccccccccggggggggggg.cccccccgggggg.cccccccccccccggggggggg.ccccccccge
+║ <?>       Help                 <ctrl-a>      Aliases                <j>    … ║
+egeeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeege
+║ <shift-a> Sort Age             <q>           Back                   <shift-… ║
+egeeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeege
+║ <shift-n> Sort Name            <esc>         Back/Clear             <g>    … ║
+egeeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeege
+║ <shift-p> Sort Namespace       <ctrl-u>      Command Clear          <[>    … ║
+egeeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeege
+║ <shift-o> Sort Selected Column <:cmd>        Command mode           <]>    … ║
+egeeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeege
+║ <shift-s> Sort Status          <tab>         Field Next             <->    … ║
+egeeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeege
+║ <ctrl-z>  Toggle Faults        <backtab>     Field Previous         <h>    … ║
+egeeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeege
+║ <ctrl-w>  Toggle Wide          </term>       Filter mode            <ctrl-f… ║
+egeeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeege
+║                                <?>           Help                   <ctrl-b… ║
+egeeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeege
+║                                <space>       Mark                   <l>    … ║
+egeeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeege
+║                                <ctrl-\>      Mark Clear             <k>    … ║
+egeeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeege
+║                                <ctrl-space>  Mark Range                    … ║
+egeeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeege
+║                                <:q>          Quit                          … ║
+egeeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeege
+║                                <ctrl-r>      Reload                        … ║
+egeeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeege
+╚══════════════════════════════════════════════════════════════════════════════╝
+eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
   <test>   <help>
-haaaaaaaagbbbbbbbbghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+gaaaaaaaafbbbbbbbbfggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
 
-hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
 --- style legend ---
 . = fg=#5f9ea0 bg=#000000 attr=none
 a = fg=#000000 bg=#00ffff attr=bold
@@ -45,6 +45,5 @@ b = fg=#000000 bg=#ffa500 attr=bold
 c = fg=#008000 bg=#000000 attr=none
 d = fg=#00ffff bg=#000000 attr=bold
 e = fg=#1e90ff bg=#000000 attr=bold
-f = fg=#87cefa bg=#000000 attr=bold
-g = fg=#ffffff bg=#000000 attr=none
-h = fg=default bg=#000000 attr=none
+f = fg=#ffffff bg=#000000 attr=none
+g = fg=default bg=#000000 attr=none

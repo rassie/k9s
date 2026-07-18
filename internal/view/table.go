@@ -17,7 +17,7 @@ import (
 	"github.com/derailed/k9s/internal/slogs"
 	"github.com/derailed/k9s/internal/ui"
 	"github.com/derailed/k9s/internal/view/cmd"
-	"github.com/derailed/tcell/v2"
+	"github.com/gdamore/tcell/v2"
 )
 
 // Table represents a table viewer.

@@ -9,8 +9,8 @@ import (
 
 	"github.com/derailed/k9s/internal/config/data"
 	"github.com/derailed/k9s/internal/config/json"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 	"gopkg.in/yaml.v3"
 )
 
@@ -797,7 +797,8 @@ func (s *Styles) Update() {
 	tview.Styles.MoreContrastBackgroundColor = s.BgColor()
 	tview.Styles.PrimaryTextColor = s.FgColor()
 	tview.Styles.BorderColor = s.K9s.Frame.Border.FgColor.Color()
-	tview.Styles.FocusColor = s.K9s.Frame.Border.FocusColor.Color()
+	// Upstream tview has no focus border color (focus is indicated via border
+	// runes), hence frame.border.focusColor skin settings are not applied.
 	tview.Styles.TitleColor = s.FgColor()
 	tview.Styles.GraphicsColor = s.FgColor()
 	tview.Styles.SecondaryTextColor = s.FgColor()

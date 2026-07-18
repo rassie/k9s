@@ -9,7 +9,7 @@ import (
 
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/model"
-	"github.com/derailed/tview"
+	"github.com/rivo/tview"
 )
 
 // Crumbs represents user breadcrumbs.

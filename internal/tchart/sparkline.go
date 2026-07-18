@@ -6,8 +6,8 @@ import (
 	"math"
 	"time"
 
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 )
 
 var sparks = []rune{'▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'}

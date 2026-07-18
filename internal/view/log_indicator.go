@@ -8,7 +8,7 @@ import (
 	"sync/atomic"
 
 	"github.com/derailed/k9s/internal/config"
-	"github.com/derailed/tview"
+	"github.com/rivo/tview"
 )
 
 const spacer = "     "

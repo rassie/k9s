@@ -9,7 +9,8 @@ import (
 
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tview"
+	"github.com/derailed/k9s/internal/ui/tviewx"
+	"github.com/rivo/tview"
 )
 
 const confirmKey = "confirm"
@@ -35,16 +36,15 @@ func ShowUploads(styles *config.Dialog, pages *ui.Pages, opts *TransferDialogOpt
 	f := tview.NewForm()
 	f.SetItemPadding(0)
 	f.SetButtonsAlign(tview.AlignCenter).
-		SetButtonBackgroundColor(styles.ButtonBgColor.Color()).
-		SetButtonTextColor(styles.ButtonFgColor.Color()).
 		SetLabelColor(styles.LabelFgColor.Color()).
 		SetFieldTextColor(styles.FieldFgColor.Color())
+	StyleFormButtons(f, styles)
 	f.AddButton("Cancel", func() {
 		dismissConfirm(pages)
 		opts.Cancel()
 	})
 
-	modal := tview.NewModalForm("<"+opts.Title+">", f)
+	modal := tviewx.NewModalForm("<"+opts.Title+">", f)
 
 	args := TransferArgs{
 		From:    opts.Pod,
@@ -52,7 +52,7 @@ func ShowUploads(styles *config.Dialog, pages *ui.Pages, opts *TransferDialogOpt
 	}
 	var fromField, toField *tview.InputField
 	args.Download = true
-	f.AddCheckbox("Download:", args.Download, func(_ string, flag bool) {
+	f.AddCheckbox("Download:", args.Download, func(flag bool) {
 		if flag {
 			modal.SetText(strings.Replace(opts.Message, "Upload", "Download", 1))
 		} else {
@@ -73,7 +73,7 @@ func ShowUploads(styles *config.Dialog, pages *ui.Pages, opts *TransferDialogOpt
 	fromField, _ = f.GetFormItemByLabel("From:").(*tview.InputField)
 	toField, _ = f.GetFormItemByLabel("To:").(*tview.InputField)
 
-	f.AddCheckbox("NoPreserve:", args.NoPreserve, func(_ string, f bool) {
+	f.AddCheckbox("NoPreserve:", args.NoPreserve, func(f bool) {
 		args.NoPreserve = f
 	})
 	if len(opts.Containers) > 0 {
@@ -98,14 +98,6 @@ func ShowUploads(styles *config.Dialog, pages *ui.Pages, opts *TransferDialogOpt
 		dismissConfirm(pages)
 		opts.Cancel()
 	})
-	for i := range 2 {
-		b := f.GetButton(i)
-		if b == nil {
-			continue
-		}
-		b.SetBackgroundColorActivated(styles.ButtonFocusBgColor.Color())
-		b.SetLabelColorActivated(styles.ButtonFocusFgColor.Color())
-	}
 	f.SetFocus(0)
 
 	message := opts.Message

@@ -4,8 +4,8 @@
 package ui
 
 import (
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 	"k8s.io/apimachinery/pkg/util/sets"
 )
 
@@ -123,8 +123,29 @@ func (s *SelectTable) selectionChanged(r, c int) {
 	if cell := s.GetCell(r, c); cell != nil {
 		s.SetSelectedStyle(
 			tcell.StyleDefault.Foreground(s.selFgColor).
-				Background(cell.Color).Attributes(tcell.AttrBold))
+				Background(cellFg(cell)).Attributes(tcell.AttrBold))
 	}
+}
+
+// cellFg returns a cell's effective foreground color. rivo/tview keeps cell
+// colors in the Style field (TableCell.SetTextColor writes there), leaving the
+// legacy Color field at ColorDefault — so reading Color directly yields the
+// terminal default. Fall back to Color only when no Style is set.
+func cellFg(c *tview.TableCell) tcell.Color {
+	if c.Style != tcell.StyleDefault {
+		fg, _, _ := c.Style.Decompose()
+		return fg
+	}
+	return c.Color
+}
+
+// cellBg returns a cell's effective background color (see cellFg).
+func cellBg(c *tview.TableCell) tcell.Color {
+	if c.Style != tcell.StyleDefault {
+		_, bg, _ := c.Style.Decompose()
+		return bg
+	}
+	return c.BackgroundColor
 }
 
 // ClearMarks delete all marked items.
@@ -150,7 +171,7 @@ func (s *SelectTable) ToggleMark() {
 	}
 
 	if cell := s.GetCell(s.GetSelectedRowIndex(), 0); cell != nil {
-		s.SetSelectedStyle(tcell.StyleDefault.Foreground(cell.BackgroundColor).Background(cell.Color).Attributes(tcell.AttrBold))
+		s.SetSelectedStyle(tcell.StyleDefault.Foreground(cellBg(cell)).Background(cellFg(cell)).Attributes(tcell.AttrBold))
 	}
 }
 
@@ -207,7 +228,7 @@ func (s *SelectTable) markRange(prev, curr int) {
 		if cell == nil {
 			break
 		}
-		s.SetSelectedStyle(tcell.StyleDefault.Foreground(cell.BackgroundColor).Background(cell.Color).Attributes(tcell.AttrBold))
+		s.SetSelectedStyle(tcell.StyleDefault.Foreground(cellBg(cell)).Background(cellFg(cell)).Attributes(tcell.AttrBold))
 	}
 }
 

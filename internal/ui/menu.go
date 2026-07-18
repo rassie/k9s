@@ -13,8 +13,8 @@ import (
 
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/model"
-	"github.com/derailed/tview"
 	runewidth "github.com/mattn/go-runewidth"
+	"github.com/rivo/tview"
 )
 
 const (

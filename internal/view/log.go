@@ -23,8 +23,8 @@ import (
 	"github.com/derailed/k9s/internal/slogs"
 	"github.com/derailed/k9s/internal/ui"
 	"github.com/derailed/k9s/internal/view/cmd"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 	"k8s.io/apimachinery/pkg/labels"
 )
 
@@ -93,7 +93,7 @@ func (l *Log) Init(ctx context.Context) (err error) {
 	l.logs.SetWrap(l.app.Config.K9s.Logger.TextWrap)
 	l.logs.SetMaxLines(l.app.Config.K9s.Logger.BufferSize)
 
-	l.ansiWriter = tview.ANSIWriter(l.logs, l.app.Styles.Views().Log.FgColor.String(), l.app.Styles.Views().Log.BgColor.String())
+	l.ansiWriter = tview.ANSIWriter(l.logs)
 	l.AddItem(l.logs, 0, 1, true)
 	l.bindKeys()
 

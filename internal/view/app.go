@@ -24,11 +24,12 @@ import (
 	"github.com/derailed/k9s/internal/slogs"
 	"github.com/derailed/k9s/internal/ui"
 	"github.com/derailed/k9s/internal/ui/dialog"
+	"github.com/derailed/k9s/internal/ui/tviewx"
 	"github.com/derailed/k9s/internal/view/cmd"
 	"github.com/derailed/k9s/internal/vul"
 	"github.com/derailed/k9s/internal/watch"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 )
 
 // ExitStatus indicates UI exit conditions.
@@ -167,7 +168,7 @@ func (a *App) layout(ctx context.Context) {
 	flash := ui.NewFlash(a.App)
 	go flash.Watch(ctx, a.Flash().Channel())
 
-	main := tview.NewFlex().SetDirection(tview.FlexRow)
+	main := tviewx.NewFlex().SetDirection(tview.FlexRow)
 	main.AddItem(a.statusIndicator(), 1, 1, false)
 	main.AddItem(a.Content, 0, 10, true)
 	if !a.Config.K9s.IsCrumbsless() {
@@ -267,12 +268,12 @@ func (a *App) bindKeys() {
 
 // ActiveView returns the currently active view.
 func (a *App) ActiveView() model.Component {
-	return a.Content.GetPrimitive("main").(model.Component)
+	return a.Content.GetPage("main").(model.Component)
 }
 
 func (a *App) toggleHeader(header, logo bool) {
 	a.showHeader, a.showLogo = header, logo
-	flex, ok := a.Main.GetPrimitive("main").(*tview.Flex)
+	flex, ok := a.Main.GetPage("main").(*tviewx.Flex)
 	if !ok {
 		slog.Error("Expecting flex view main panel. Exiting!")
 		os.Exit(1)
@@ -288,7 +289,7 @@ func (a *App) toggleHeader(header, logo bool) {
 
 func (a *App) toggleCrumbs(flag bool) {
 	a.showCrumbs = flag
-	flex, ok := a.Main.GetPrimitive("main").(*tview.Flex)
+	flex, ok := a.Main.GetPage("main").(*tviewx.Flex)
 	if !ok {
 		slog.Error("Expecting valid flex view main panel. Exiting!")
 		os.Exit(1)

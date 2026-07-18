@@ -10,7 +10,9 @@ import (
 
 	"github.com/derailed/k9s/internal/dao"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tview"
+	"github.com/derailed/k9s/internal/ui/dialog"
+	"github.com/derailed/k9s/internal/ui/tviewx"
+	"github.com/rivo/tview"
 )
 
 const drainKey = "drain"
@@ -25,11 +27,10 @@ func ShowDrain(view ResourceViewer, sels []string, opts dao.DrainOptions, okFn D
 	f := tview.NewForm().
 		SetItemPadding(0).
 		SetButtonsAlign(tview.AlignCenter).
-		SetButtonBackgroundColor(styles.ButtonBgColor.Color()).
-		SetButtonTextColor(styles.ButtonFgColor.Color()).
 		SetLabelColor(styles.LabelFgColor.Color()).
 		SetFieldTextColor(styles.FieldFgColor.Color()).
 		SetFieldBackgroundColor(styles.BgColor.Color())
+	dialog.StyleFormButtons(f, &styles)
 
 	f.AddInputField("GracePeriod:", strconv.Itoa(opts.GracePeriodSeconds), 0, nil, func(v string) {
 		a, err := asIntOpt(v)
@@ -49,16 +50,16 @@ func ShowDrain(view ResourceViewer, sels []string, opts dao.DrainOptions, okFn D
 		view.App().Flash().Clear()
 		opts.Timeout = a
 	})
-	f.AddCheckbox("Ignore DaemonSets:", opts.IgnoreAllDaemonSets, func(_ string, v bool) {
+	f.AddCheckbox("Ignore DaemonSets:", opts.IgnoreAllDaemonSets, func(v bool) {
 		opts.IgnoreAllDaemonSets = v
 	})
-	f.AddCheckbox("Delete EmptyDir Data:", opts.DeleteEmptyDirData, func(_ string, v bool) {
+	f.AddCheckbox("Delete EmptyDir Data:", opts.DeleteEmptyDirData, func(v bool) {
 		opts.DeleteEmptyDirData = v
 	})
-	f.AddCheckbox("Force:", opts.Force, func(_ string, v bool) {
+	f.AddCheckbox("Force:", opts.Force, func(v bool) {
 		opts.Force = v
 	})
-	f.AddCheckbox("Disable Eviction:", opts.DisableEviction, func(_ string, v bool) {
+	f.AddCheckbox("Disable Eviction:", opts.DisableEviction, func(v bool) {
 		opts.DisableEviction = v
 	})
 
@@ -71,7 +72,7 @@ func ShowDrain(view ResourceViewer, sels []string, opts dao.DrainOptions, okFn D
 		okFn(view, sels, opts)
 	})
 
-	modal := tview.NewModalForm("<Drain>", f)
+	modal := tviewx.NewModalForm("<Drain>", f)
 	path := "Drain "
 	if len(sels) == 1 {
 		path += sels[0]
@@ -86,13 +87,14 @@ func ShowDrain(view ResourceViewer, sels []string, opts dao.DrainOptions, okFn D
 
 	pages.AddPage(drainKey, modal, false, true)
 	pages.ShowPage(drainKey)
-	view.App().SetFocus(pages.GetPrimitive(drainKey))
+	view.App().SetFocus(pages.GetPage(drainKey))
 }
 
 // DismissDrain dismiss the port forward dialog.
 func DismissDrain(v ResourceViewer, p *ui.Pages) {
 	p.RemovePage(drainKey)
-	v.App().SetFocus(p.CurrentPage().Item)
+	_, it := p.GetFrontPage()
+	v.App().SetFocus(it)
 }
 
 // ----------------------------------------------------------------------------

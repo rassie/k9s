@@ -4,26 +4,26 @@
 
 
 
-                     ┌────────<Delete>─────────┐
-.....................cccccccccbbbbbbbbcccccccccc
-                     │                         │
-.....................c.........................c
-                     │    Delete pod fred?     │
-.....................c....dddddddddddddddd.....c
-                     │                         │
-.....................c.........................c
-                     │ Propagation: Background │
-.....................c.eeeeeeeeeeee.eeeeeeeeee.c
-                     │ Force:                  │
-.....................c.eeeeee.......e..........c
-                     │                         │
-.....................c.........................c
-                     │      Cancel     OK      │
-.....................c....ffaaaaaaff...dd......c
-                     │                         │
-.....................c.........................c
-                     └─────────────────────────┘
-.....................ccccccccccccccccccccccccccc
+                     ╔════════<Delete>═════════╗
+.....................dddddddddccccccccdddddddddd
+                     ║                         ║
+.....................d.........................d
+                     ║    Delete pod fred?     ║
+.....................d....eeeeeeeeeeeeeeee.....d
+                     ║                         ║
+.....................d.........................d
+                     ║ Propagation: Background ║
+.....................d.ffffffffffff.ffffffffff.d
+                     ║ Force:                  ║
+.....................d.ffffff.......f..........d
+                     ║                         ║
+.....................d.........................d
+                     ║      Cancel     OK      ║
+.....................d....ggaaaaaagg.hhbbhh....d
+                     ║                         ║
+.....................d.........................d
+                     ╚═════════════════════════╝
+.....................ddddddddddddddddddddddddddd
 
 
 
@@ -33,8 +33,10 @@
 --- style legend ---
 . = fg=default bg=#000000 attr=none
 a = fg=#000000 bg=#1e90ff attr=none
-b = fg=#00ffff bg=#000000 attr=none
-c = fg=#1e90ff bg=#000000 attr=none
-d = fg=#5f9ea0 bg=#000000 attr=none
-e = fg=#ffffff bg=#000000 attr=none
-f = fg=default bg=#1e90ff attr=none
+b = fg=#000000 bg=#483d8b attr=none
+c = fg=#00ffff bg=#000000 attr=none
+d = fg=#1e90ff bg=#000000 attr=none
+e = fg=#5f9ea0 bg=#000000 attr=none
+f = fg=#ffffff bg=#000000 attr=none
+g = fg=default bg=#1e90ff attr=none
+h = fg=default bg=#483d8b attr=none

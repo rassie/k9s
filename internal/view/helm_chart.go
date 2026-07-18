@@ -9,7 +9,7 @@ import (
 	"github.com/derailed/k9s/internal"
 	"github.com/derailed/k9s/internal/client"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tcell/v2"
+	"github.com/gdamore/tcell/v2"
 )
 
 // HelmChart represents a helm chart view.
@@ -22,7 +22,6 @@ func NewHelmChart(gvr *client.GVR) ResourceViewer {
 	c := HelmChart{
 		ResourceViewer: NewValueExtender(NewBrowser(gvr)),
 	}
-	c.GetTable().SetBorderFocusColor(tcell.ColorMediumSpringGreen)
 	c.GetTable().SetSelectedStyle(tcell.StyleDefault.
 		Foreground(tcell.ColorWhite).
 		Background(tcell.ColorMediumSpringGreen).Attributes(tcell.AttrNone))

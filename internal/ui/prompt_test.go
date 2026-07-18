@@ -9,7 +9,7 @@ import (
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/model"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tcell/v2"
+	"github.com/gdamore/tcell/v2"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -24,26 +24,26 @@ func TestCmdNew(t *testing.T) {
 			mode:   ':',
 			noIcon: true,
 			kind:   model.CommandBuffer,
-			e:      " > [::b]blee\n",
+			e:      " > [::b]blee",
 		},
 
 		"cmd-ic": {
 			mode: ':',
 			kind: model.CommandBuffer,
-			e:    "🐶> [::b]blee\n",
+			e:    "🐶> [::b]blee",
 		},
 
 		"search": {
 			mode:   '/',
 			kind:   model.FilterBuffer,
 			noIcon: true,
-			e:      " / [::b]blee\n",
+			e:      " / [::b]blee",
 		},
 
 		"search-ic": {
 			mode: '/',
 			kind: model.FilterBuffer,
-			e:    "🐩/ [::b]blee\n",
+			e:    "🐩/ [::b]blee",
 		},
 	}
 
@@ -71,7 +71,7 @@ func TestCmdUpdate(t *testing.T) {
 	m.SetText("blee", "", true)
 	m.Add('!')
 
-	assert.Equal(t, "\x00\x00 [::b]blee!\n", v.GetText(false))
+	assert.Equal(t, "\x00\x00 [::b]blee!", v.GetText(false))
 	assert.False(t, v.InCmdMode())
 }
 

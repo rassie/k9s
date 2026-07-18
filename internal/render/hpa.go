@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/derailed/k9s/internal/model1"
-	"github.com/derailed/tcell/v2"
+	"github.com/gdamore/tcell/v2"
 )
 
 // HorizontalPodAutoscaler renders a K8s HorizontalPodAutoscaler to screen.

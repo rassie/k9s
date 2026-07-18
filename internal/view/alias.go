@@ -9,7 +9,7 @@ import (
 	"github.com/derailed/k9s/internal"
 	"github.com/derailed/k9s/internal/client"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tcell/v2"
+	"github.com/gdamore/tcell/v2"
 )
 
 const aliasTitle = "Aliases"
@@ -24,7 +24,6 @@ func NewAlias(gvr *client.GVR) ResourceViewer {
 	a := Alias{
 		ResourceViewer: NewBrowser(gvr),
 	}
-	a.GetTable().SetBorderFocusColor(tcell.ColorAliceBlue)
 	a.GetTable().SetSelectedStyle(tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorAliceBlue).Attributes(tcell.AttrNone))
 	a.AddBindKeysFn(a.bindKeys)
 	a.SetContextFn(a.aliasContext)

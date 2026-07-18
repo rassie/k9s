@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/derailed/k9s/internal/model1"
-	"github.com/derailed/tview"
+	"github.com/rivo/tview"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"

@@ -17,7 +17,7 @@ import (
 	"github.com/derailed/k9s/internal/render"
 	"github.com/derailed/k9s/internal/slogs"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tcell/v2"
+	"github.com/gdamore/tcell/v2"
 )
 
 // Benchmark represents a service benchmark results view.
@@ -30,7 +30,6 @@ func NewBenchmark(gvr *client.GVR) ResourceViewer {
 	b := Benchmark{
 		ResourceViewer: NewBrowser(gvr),
 	}
-	b.GetTable().SetBorderFocusColor(tcell.ColorSeaGreen)
 	b.GetTable().SetSelectedStyle(tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorSeaGreen).Attributes(tcell.AttrNone))
 	b.GetTable().SetSortCol(ageCol, true)
 	b.SetContextFn(b.benchContext)
