@@ -6,7 +6,8 @@ package dialog
 import (
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tview"
+	"github.com/derailed/k9s/internal/ui/tviewx"
+	"github.com/rivo/tview"
 )
 
 const dialogKey = "dialog"
@@ -19,10 +20,9 @@ func ShowConfirmAck(app *ui.App, pages *ui.Pages, acceptStr string, override boo
 	f := tview.NewForm()
 	f.SetItemPadding(0)
 	f.SetButtonsAlign(tview.AlignCenter).
-		SetButtonBackgroundColor(styles.ButtonBgColor.Color()).
-		SetButtonTextColor(styles.ButtonFgColor.Color()).
 		SetLabelColor(styles.LabelFgColor.Color()).
 		SetFieldTextColor(styles.FieldFgColor.Color())
+	StyleFormButtons(f, &styles)
 	f.AddButton("Cancel", func() {
 		dismissConfirm(pages)
 		cancel()
@@ -46,16 +46,8 @@ func ShowConfirmAck(app *ui.App, pages *ui.Pages, acceptStr string, override boo
 		dismissConfirm(pages)
 		cancel()
 	})
-	for i := range 2 {
-		b := f.GetButton(i)
-		if b == nil {
-			continue
-		}
-		b.SetBackgroundColorActivated(styles.ButtonFocusBgColor.Color())
-		b.SetLabelColorActivated(styles.ButtonFocusFgColor.Color())
-	}
 	f.SetFocus(0)
-	modal := tview.NewModalForm("<"+title+">", f)
+	modal := tviewx.NewModalForm("<"+title+">", f)
 	modal.SetText(msg)
 	modal.SetTextColor(styles.FgColor.Color())
 	modal.SetDoneFunc(func(int, string) {
@@ -71,11 +63,10 @@ func ShowConfirm(styles *config.Dialog, pages *ui.Pages, title, msg string, ack 
 	f := tview.NewForm().
 		SetItemPadding(0).
 		SetButtonsAlign(tview.AlignCenter).
-		SetButtonBackgroundColor(styles.ButtonBgColor.Color()).
-		SetButtonTextColor(styles.ButtonFgColor.Color()).
 		SetLabelColor(styles.LabelFgColor.Color()).
 		SetFieldTextColor(styles.FieldFgColor.Color()).
 		SetFieldBackgroundColor(styles.BgColor.Color())
+	StyleFormButtons(f, styles)
 	f.AddButton("Cancel", func() {
 		dismiss(pages)
 		cancel()
@@ -85,14 +76,8 @@ func ShowConfirm(styles *config.Dialog, pages *ui.Pages, title, msg string, ack 
 		dismiss(pages)
 		cancel()
 	})
-	for i := range 2 {
-		if b := f.GetButton(i); b != nil {
-			b.SetBackgroundColorActivated(styles.ButtonFocusBgColor.Color())
-			b.SetLabelColorActivated(styles.ButtonFocusFgColor.Color())
-		}
-	}
 	f.SetFocus(0)
-	modal := tview.NewModalForm("<"+title+">", f)
+	modal := tviewx.NewModalForm("<"+title+">", f)
 	modal.SetText(msg)
 	modal.SetTextColor(styles.FgColor.Color())
 	modal.SetDoneFunc(func(int, string) {

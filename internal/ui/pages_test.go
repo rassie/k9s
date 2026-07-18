@@ -18,7 +18,8 @@ func TestPagesPush(t *testing.T) {
 	p.Push(c2)
 
 	assert.Equal(t, 2, p.GetPageCount())
-	assert.Equal(t, c2, p.CurrentPage().Item)
+	_, item := p.GetFrontPage()
+	assert.Equal(t, c2, item)
 }
 
 func TestPagesPop(t *testing.T) {
@@ -30,5 +31,6 @@ func TestPagesPop(t *testing.T) {
 	p.Pop()
 
 	assert.Equal(t, 1, p.GetPageCount())
-	assert.Equal(t, c1, p.CurrentPage().Item)
+	_, item := p.GetFrontPage()
+	assert.Equal(t, c1, item)
 }

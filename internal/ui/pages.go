@@ -9,7 +9,8 @@ import (
 
 	"github.com/derailed/k9s/internal/model"
 	"github.com/derailed/k9s/internal/slogs"
-	"github.com/derailed/tview"
+	"github.com/derailed/k9s/internal/ui/tviewx"
+	"github.com/rivo/tview"
 )
 
 // Pages represents a stack of view pages.
@@ -33,7 +34,7 @@ func NewPages() *Pages {
 func (p *Pages) IsTopDialog() bool {
 	_, pa := p.GetFrontPage()
 	switch pa.(type) {
-	case *tview.ModalForm, *ModalList:
+	case *tviewx.ModalForm, *ModalList:
 		return true
 	default:
 		return false
@@ -47,12 +48,16 @@ func (p *Pages) Show(c model.Component) {
 
 // Current returns the current component.
 func (p *Pages) Current() model.Component {
-	c := p.CurrentPage()
-	if c == nil {
+	_, item := p.GetFrontPage()
+	if item == nil {
+		return nil
+	}
+	c, ok := item.(model.Component)
+	if !ok {
 		return nil
 	}
 
-	return c.Item.(model.Component)
+	return c
 }
 
 // AddAndShow adds a new page and bring it to front.
@@ -75,7 +80,7 @@ func (p *Pages) delete(c model.Component) {
 func (p *Pages) Dump() {
 	slog.Debug("Dumping Pages", slogs.Page, p)
 	for i, c := range p.Peek() {
-		slog.Debug(fmt.Sprintf("%d -- %s -- %#v", i, componentID(c), p.GetPrimitive(componentID(c))))
+		slog.Debug(fmt.Sprintf("%d -- %s -- %#v", i, componentID(c), p.GetPage(componentID(c))))
 	}
 }
 

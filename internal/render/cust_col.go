@@ -10,7 +10,7 @@ import (
 
 	"github.com/derailed/k9s/internal/model1"
 	"github.com/derailed/k9s/internal/slogs"
-	"github.com/derailed/tview"
+	"github.com/rivo/tview"
 	"k8s.io/kubectl/pkg/cmd/get"
 )
 

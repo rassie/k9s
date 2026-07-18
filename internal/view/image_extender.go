@@ -12,8 +12,10 @@ import (
 	"github.com/derailed/k9s/internal/dao"
 	"github.com/derailed/k9s/internal/slogs"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/derailed/k9s/internal/ui/dialog"
+	"github.com/derailed/k9s/internal/ui/tviewx"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 	corev1 "k8s.io/api/core/v1"
 )
 
@@ -84,7 +86,7 @@ func (s *ImageExtender) showImageDialog(path string) error {
 	if err != nil {
 		return err
 	}
-	confirm := tview.NewModalForm("<Set image>", form)
+	confirm := tviewx.NewModalForm("<Set image>", form)
 	confirm.SetText(fmt.Sprintf("Set image %s %s", s.GVR(), path))
 	confirm.SetDoneFunc(func(int, string) {
 		s.dismissDialog()
@@ -115,8 +117,6 @@ func (s *ImageExtender) makeSetImageForm(fqn string) (*tview.Form, error) {
 	f := tview.NewForm().
 		SetItemPadding(0).
 		SetButtonsAlign(tview.AlignCenter).
-		SetButtonBackgroundColor(styles.ButtonBgColor.Color()).
-		SetButtonTextColor(styles.ButtonFgColor.Color()).
 		SetLabelColor(styles.LabelFgColor.Color()).
 		SetFieldTextColor(styles.FieldFgColor.Color()).
 		AddButton("OK", func() {
@@ -150,11 +150,7 @@ func (s *ImageExtender) makeSetImageForm(fqn string) (*tview.Form, error) {
 		})
 	}
 
-	for i := range f.GetButtonCount() {
-		f.GetButton(i).
-			SetBackgroundColorActivated(styles.ButtonFocusBgColor.Color()).
-			SetLabelColorActivated(styles.ButtonFocusFgColor.Color())
-	}
+	dialog.StyleFormButtons(f, &styles)
 
 	return f, nil
 }

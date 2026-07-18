@@ -6,7 +6,7 @@ package config
 import (
 	"fmt"
 
-	"github.com/derailed/tcell/v2"
+	"github.com/gdamore/tcell/v2"
 	"github.com/lucasb-eyer/go-colorful"
 )
 

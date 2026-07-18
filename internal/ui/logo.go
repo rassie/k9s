@@ -10,8 +10,9 @@ import (
 	"sync"
 
 	"github.com/derailed/k9s/internal/config"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
+	"github.com/rivo/uniseg"
 )
 
 const (
@@ -164,9 +165,30 @@ func logoLines(art string) []string {
 	lines := strings.SplitN(art, "\n", LogoArtHeight+1)
 	lines = lines[:min(len(lines), LogoArtHeight)]
 	for i, line := range lines {
-		lines[i] = strings.ReplaceAll(line, "\t", strings.Repeat(" ", tview.TabSize))
+		lines[i] = clipWidth(strings.ReplaceAll(line, "\t", strings.Repeat(" ", tview.TabSize)), LogoWidth)
 	}
 	return lines
+}
+
+// clipWidth cuts s to at most width terminal columns without splitting a wide
+// character. tview's TextView would otherwise draw a wide character that only
+// half fits, spilling it past the logo's right edge.
+func clipWidth(s string, width int) string {
+	var (
+		out     strings.Builder
+		cluster string
+		w, used int
+		state   = -1
+	)
+	for len(s) > 0 {
+		cluster, s, w, state = uniseg.FirstGraphemeClusterInString(s, state)
+		if used+w > width {
+			break
+		}
+		used += w
+		out.WriteString(cluster)
+	}
+	return out.String()
 }
 
 func logo() *tview.TextView {

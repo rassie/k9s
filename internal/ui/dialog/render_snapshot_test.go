@@ -10,7 +10,7 @@ import (
 	"github.com/derailed/k9s/internal/ui"
 	"github.com/derailed/k9s/internal/ui/dialog"
 	"github.com/derailed/k9s/internal/ui/uitest"
-	"github.com/derailed/tview"
+	"github.com/rivo/tview"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 

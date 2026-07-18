@@ -6,7 +6,8 @@ package dialog
 import (
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tview"
+	"github.com/derailed/k9s/internal/ui/tviewx"
+	"github.com/rivo/tview"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -23,16 +24,15 @@ func ShowRestart(styles *config.Dialog, pages *ui.Pages, opts *RestartDialogOpts
 	f := tview.NewForm()
 	f.SetItemPadding(0)
 	f.SetButtonsAlign(tview.AlignCenter).
-		SetButtonBackgroundColor(styles.ButtonBgColor.Color()).
-		SetButtonTextColor(styles.ButtonFgColor.Color()).
 		SetLabelColor(styles.LabelFgColor.Color()).
 		SetFieldTextColor(styles.FieldFgColor.Color())
+	StyleFormButtons(f, styles)
 	f.AddButton("Cancel", func() {
 		dismissConfirm(pages)
 		opts.Cancel()
 	})
 
-	modal := tview.NewModalForm("<"+opts.Title+">", f)
+	modal := tviewx.NewModalForm("<"+opts.Title+">", f)
 
 	args := metav1.PatchOptions{
 		FieldManager: opts.FieldManager,
@@ -48,14 +48,6 @@ func ShowRestart(styles *config.Dialog, pages *ui.Pages, opts *RestartDialogOpts
 		dismissConfirm(pages)
 		opts.Cancel()
 	})
-	for i := range 2 {
-		b := f.GetButton(i)
-		if b == nil {
-			continue
-		}
-		b.SetBackgroundColorActivated(styles.ButtonFocusBgColor.Color())
-		b.SetLabelColorActivated(styles.ButtonFocusFgColor.Color())
-	}
 	f.SetFocus(1)
 
 	message := opts.Message

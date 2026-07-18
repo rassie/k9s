@@ -11,8 +11,8 @@ import (
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/model"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 )
 
 // Cow represents a bomb viewer.
@@ -39,7 +39,6 @@ func (c *Cow) Init(_ context.Context) error {
 	c.SetBorder(true)
 	c.SetScrollable(true).SetWrap(true).SetRegions(true)
 	c.SetDynamicColors(true)
-	c.SetHighlightColor(tcell.ColorOrange)
 	c.SetTitleColor(tcell.ColorAqua)
 	c.SetInputCapture(c.keyboard)
 	c.SetBorderPadding(0, 0, 1, 1)
@@ -105,7 +104,6 @@ func (c *Cow) keyboard(evt *tcell.EventKey) *tcell.EventKey {
 func (c *Cow) StylesChanged(s *config.Styles) {
 	c.SetBackgroundColor(s.BgColor())
 	c.SetTextColor(s.FgColor())
-	c.SetBorderFocusColor(s.Frame().Border.FocusColor.Color())
 }
 
 func (c *Cow) resetCmd(evt *tcell.EventKey) *tcell.EventKey {

@@ -18,26 +18,26 @@ func TestIndicatorReset(t *testing.T) {
 	i.Info("duh")
 	i.Reset()
 
-	assert.Equal(t, "Blee\n", i.GetText(false))
+	assert.Equal(t, "Blee", i.GetText(false))
 }
 
 func TestIndicatorInfo(t *testing.T) {
 	i := ui.NewStatusIndicator(ui.NewApp(mock.NewMockConfig(t), ""), config.NewStyles())
 	i.Info("Blee")
 
-	assert.Equal(t, "[lawngreen::b] <Blee> \n", i.GetText(false))
+	assert.Equal(t, "[lawngreen::b] <Blee> ", i.GetText(false))
 }
 
 func TestIndicatorWarn(t *testing.T) {
 	i := ui.NewStatusIndicator(ui.NewApp(mock.NewMockConfig(t), ""), config.NewStyles())
 	i.Warn("Blee")
 
-	assert.Equal(t, "[mediumvioletred::b] <Blee> \n", i.GetText(false))
+	assert.Equal(t, "[mediumvioletred::b] <Blee> ", i.GetText(false))
 }
 
 func TestIndicatorErr(t *testing.T) {
 	i := ui.NewStatusIndicator(ui.NewApp(mock.NewMockConfig(t), ""), config.NewStyles())
 	i.Err("Blee")
 
-	assert.Equal(t, "[orangered::b] <Blee> \n", i.GetText(false))
+	assert.Equal(t, "[orangered::b] <Blee> ", i.GetText(false))
 }

@@ -10,7 +10,7 @@ import (
 
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tcell/v2"
+	"github.com/gdamore/tcell/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -19,7 +19,7 @@ func TestNewLogoView(t *testing.T) {
 	v := ui.NewLogo(config.NewStyles())
 	v.Reset()
 
-	const elogo = "[#ffa500::b] ____  __ ________       \n[#ffa500::b]|    |/  /   __   \\______\n[#ffa500::b]|       /\\____    /  ___/\n[#ffa500::b]|    \\   \\  /    /\\___  \\\n[#ffa500::b]|____|\\__ \\/____//____  /\n[#ffa500::b]         \\/           \\/ \n"
+	const elogo = "[#ffa500::b] ____  __ ________       \n[#ffa500::b]|    |/  /   __   \\______\n[#ffa500::b]|       /\\____    /  ___/\n[#ffa500::b]|    \\   \\  /    /\\___  \\\n[#ffa500::b]|____|\\__ \\/____//____  /\n[#ffa500::b]         \\/           \\/ "
 	assert.Equal(t, elogo, v.Logo().GetText(false))
 	assert.Empty(t, v.Status().GetText(false))
 }
@@ -28,7 +28,7 @@ func TestLogoCustomArt(t *testing.T) {
 	v := ui.NewLogo(config.NewStyles())
 	v.SetLogo("AB\n C")
 
-	assert.Equal(t, "[#ffa500::b]AB\n[#ffa500::b] C\n", v.Logo().GetText(false))
+	assert.Equal(t, "[#ffa500::b]AB\n[#ffa500::b] C", v.Logo().GetText(false))
 }
 
 func TestLogoRendering(t *testing.T) {
@@ -137,7 +137,7 @@ func TestLogoCustomArtFallsBack(t *testing.T) {
 	v := ui.NewLogo(config.NewStyles())
 	v.SetLogo(" \n\t\n")
 
-	const elogo = "[#ffa500::b] ____  __ ________       \n[#ffa500::b]|    |/  /   __   \\______\n[#ffa500::b]|       /\\____    /  ___/\n[#ffa500::b]|    \\   \\  /    /\\___  \\\n[#ffa500::b]|____|\\__ \\/____//____  /\n[#ffa500::b]         \\/           \\/ \n"
+	const elogo = "[#ffa500::b] ____  __ ________       \n[#ffa500::b]|    |/  /   __   \\______\n[#ffa500::b]|       /\\____    /  ___/\n[#ffa500::b]|    \\   \\  /    /\\___  \\\n[#ffa500::b]|____|\\__ \\/____//____  /\n[#ffa500::b]         \\/           \\/ "
 	assert.Equal(t, elogo, v.Logo().GetText(false))
 }
 
@@ -146,19 +146,19 @@ func TestLogoStatus(t *testing.T) {
 		logo, msg, e string
 	}{
 		"info": {
-			"[#008000::b] ____  __ ________       \n[#008000::b]|    |/  /   __   \\______\n[#008000::b]|       /\\____    /  ___/\n[#008000::b]|    \\   \\  /    /\\___  \\\n[#008000::b]|____|\\__ \\/____//____  /\n[#008000::b]         \\/           \\/ \n",
+			"[#008000::b] ____  __ ________       \n[#008000::b]|    |/  /   __   \\______\n[#008000::b]|       /\\____    /  ___/\n[#008000::b]|    \\   \\  /    /\\___  \\\n[#008000::b]|____|\\__ \\/____//____  /\n[#008000::b]         \\/           \\/ ",
 			"blee",
-			"[#ffffff::b]blee\n",
+			"[#ffffff::b]blee",
 		},
 		"warn": {
-			"[#c71585::b] ____  __ ________       \n[#c71585::b]|    |/  /   __   \\______\n[#c71585::b]|       /\\____    /  ___/\n[#c71585::b]|    \\   \\  /    /\\___  \\\n[#c71585::b]|____|\\__ \\/____//____  /\n[#c71585::b]         \\/           \\/ \n",
+			"[#c71585::b] ____  __ ________       \n[#c71585::b]|    |/  /   __   \\______\n[#c71585::b]|       /\\____    /  ___/\n[#c71585::b]|    \\   \\  /    /\\___  \\\n[#c71585::b]|____|\\__ \\/____//____  /\n[#c71585::b]         \\/           \\/ ",
 			"blee",
-			"[#ffffff::b]blee\n",
+			"[#ffffff::b]blee",
 		},
 		"err": {
-			"[#ff0000::b] ____  __ ________       \n[#ff0000::b]|    |/  /   __   \\______\n[#ff0000::b]|       /\\____    /  ___/\n[#ff0000::b]|    \\   \\  /    /\\___  \\\n[#ff0000::b]|____|\\__ \\/____//____  /\n[#ff0000::b]         \\/           \\/ \n",
+			"[#ff0000::b] ____  __ ________       \n[#ff0000::b]|    |/  /   __   \\______\n[#ff0000::b]|       /\\____    /  ___/\n[#ff0000::b]|    \\   \\  /    /\\___  \\\n[#ff0000::b]|____|\\__ \\/____//____  /\n[#ff0000::b]         \\/           \\/ ",
 			"blee",
-			"[#ffffff::b]blee\n",
+			"[#ffffff::b]blee",
 		},
 	}
 

@@ -21,8 +21,8 @@ import (
 	"github.com/derailed/k9s/internal/ui/dialog"
 	"github.com/derailed/k9s/internal/view/cmd"
 	"github.com/derailed/k9s/internal/xray"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 	"github.com/sahilm/fuzzy"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
@@ -82,7 +82,6 @@ func (x *Xray) Init(ctx context.Context) error {
 	x.bindKeys()
 	x.SetBackgroundColor(x.app.Styles.Xray().BgColor.Color())
 	x.SetBorderColor(x.app.Styles.Xray().FgColor.Color())
-	x.SetBorderFocusColor(x.app.Styles.Frame().Border.FocusColor.Color())
 	x.SetGraphicsColor(x.app.Styles.Xray().GraphicColor.Color())
 	x.SetTitle(fmt.Sprintf(" %s-%s ", xrayTitle, cases.Title(language.Und, cases.NoLower).String(x.gvr.R())))
 

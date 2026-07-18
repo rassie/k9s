@@ -3,7 +3,7 @@
 
 package ui
 
-import "github.com/derailed/tcell/v2"
+import "github.com/gdamore/tcell/v2"
 
 func init() {
 	initKeys()
@@ -85,9 +85,19 @@ const (
 	KeyRightBracket = 93
 )
 
+// keyShiftBase anchors k9s' synthetic Shift+<letter> keys in a private range
+// that sits above tcell's reserved key space (tcell uses 0-31, 64-95, 127 and
+// 256-346; tcell.Key is an int16, so values up to 32767 are available). The
+// ASCII codepoints of 'A'-'Z' (65-90) — which k9s used historically — cannot be
+// used anymore: tcell relocated KeyCtrlA..KeyCtrlZ onto exactly 65-90 in v2.10
+// (CSI-u key reporting, gdamore/tcell#671), which made Ctrl+<letter> and
+// Shift+<letter> collide on a single integer. AsKey performs the matching
+// encoding for incoming events.
+const keyShiftBase tcell.Key = 1024
+
 // Define Shift Keys.
 const (
-	KeyShiftA tcell.Key = iota + 65
+	KeyShiftA tcell.Key = iota + keyShiftBase
 	KeyShiftB
 	KeyShiftC
 	KeyShiftD

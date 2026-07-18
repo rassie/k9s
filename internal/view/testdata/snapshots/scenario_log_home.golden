@@ -1,41 +1,41 @@
 
 
-┌────────────────────────── Logs(fred/p1:blee)[tail] ──────────────────────────┐
-dddddddddddddddddddddddddddffffffiiiiiiiikkkkffbbbbffddddddddddddddddddddddddddd
-│Autoscroll:On      ColumnLock:Off     FullScreen:Off     Timestamps:Off     Wr│
-dccccccccccceeddddddcccccccccccgggdddddcccccccccccgggdddddcccccccccccgggdddddccd
-│ line-00                                                                      │
-d.hhhhhhh......................................................................d
-│ line-01                                                                      │
-d.hhhhhhh......................................................................d
-│ line-02                                                                      │
-d.hhhhhhh......................................................................d
-│ line-03                                                                      │
-d.hhhhhhh......................................................................d
-│ line-04                                                                      │
-d.hhhhhhh......................................................................d
-│ line-05                                                                      │
-d.hhhhhhh......................................................................d
-│ line-06                                                                      │
-d.hhhhhhh......................................................................d
-│ line-07                                                                      │
-d.hhhhhhh......................................................................d
-│ line-08                                                                      │
-d.hhhhhhh......................................................................d
-│ line-09                                                                      │
-d.hhhhhhh......................................................................d
-│ line-10                                                                      │
-d.hhhhhhh......................................................................d
-│ line-11                                                                      │
-d.hhhhhhh......................................................................d
-│ line-12                                                                      │
-d.hhhhhhh......................................................................d
-│ line-13                                                                      │
-d.hhhhhhh......................................................................d
-└──────────────────────────────────────────────────────────────────────────────┘
-dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+╔══════════════════════════ Logs(fred/p1:blee)[tail] ══════════════════════════╗
+eeeeeeeeeeeeeeeeeeeeeeeeeeeggggggjjjjjjjjllllggbbbbggeeeeeeeeeeeeeeeeeeeeeeeeeee
+║ Autoscroll:On      ColumnLock:Off     FullScreen:Off     Timestamps:Off      ║
+e.cccccccccccffccccccccccccccccchhhddddddddddddddddhhhddddddddddddddddhhhddddd.e
+║ line-00                                                                      ║
+e.iiiiiii......................................................................e
+║ line-01                                                                      ║
+e.iiiiiii......................................................................e
+║ line-02                                                                      ║
+e.iiiiiii......................................................................e
+║ line-03                                                                      ║
+e.iiiiiii......................................................................e
+║ line-04                                                                      ║
+e.iiiiiii......................................................................e
+║ line-05                                                                      ║
+e.iiiiiii......................................................................e
+║ line-06                                                                      ║
+e.iiiiiii......................................................................e
+║ line-07                                                                      ║
+e.iiiiiii......................................................................e
+║ line-08                                                                      ║
+e.iiiiiii......................................................................e
+║ line-09                                                                      ║
+e.iiiiiii......................................................................e
+║ line-10                                                                      ║
+e.iiiiiii......................................................................e
+║ line-11                                                                      ║
+e.iiiiiii......................................................................e
+║ line-12                                                                      ║
+e.iiiiiii......................................................................e
+║ line-13                                                                      ║
+e.iiiiiii......................................................................e
+╚══════════════════════════════════════════════════════════════════════════════╝
+eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
   <logs>
-.aaaaaaaaj
+.aaaaaaaak
 
 
 --- style legend ---
@@ -43,11 +43,12 @@ dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
 a = fg=#000000 bg=#ffa500 attr=bold
 b = fg=#008000 bg=#000000 attr=bold
 c = fg=#1e90ff bg=#000000 attr=bold
-d = fg=#1e90ff bg=#000000 attr=none
-e = fg=#32cd32 bg=#000000 attr=bold
-f = fg=#5f9ea0 bg=#000000 attr=none
-g = fg=#808080 bg=#000000 attr=dim
-h = fg=#87cefa bg=#000000 attr=none
-i = fg=#ff00ff bg=#000000 attr=none
-j = fg=#ffffff bg=#000000 attr=none
-k = fg=default bg=#000000 attr=bold
+d = fg=#1e90ff bg=#000000 attr=bold+dim
+e = fg=#1e90ff bg=#000000 attr=none
+f = fg=#32cd32 bg=#000000 attr=bold
+g = fg=#5f9ea0 bg=#000000 attr=none
+h = fg=#808080 bg=#000000 attr=bold+dim
+i = fg=#87cefa bg=#000000 attr=none
+j = fg=#ff00ff bg=#000000 attr=none
+k = fg=#ffffff bg=#000000 attr=none
+l = fg=default bg=#000000 attr=bold

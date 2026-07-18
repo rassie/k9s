@@ -10,27 +10,28 @@ import (
 
 	"github.com/derailed/k9s/internal/config/mock"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/derailed/k9s/internal/ui/tviewx"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
-func newHeaderTestApp(t *testing.T) (*App, *tview.Flex, tcell.SimulationScreen) {
+func newHeaderTestApp(t *testing.T) (*App, *tviewx.Flex, tcell.SimulationScreen) {
 	t.Helper()
 	a := NewApp(mock.NewMockConfig(t))
 	a.Config.K9s.UI.Splashless = true
 	ctx, cancel := context.WithCancel(context.Background())
 	t.Cleanup(cancel)
 	a.layout(ctx)
-	main := a.Main.GetPrimitive("main").(*tview.Flex)
+	main := a.Main.GetPage("main").(*tviewx.Flex)
 	screen := tcell.NewSimulationScreen("UTF-8")
 	require.NoError(t, screen.Init())
 	t.Cleanup(screen.Fini)
 	return a, main, screen
 }
 
-func drawHeaderTest(main *tview.Flex, screen tcell.SimulationScreen, width, height int) {
+func drawHeaderTest(main *tviewx.Flex, screen tcell.SimulationScreen, width, height int) {
 	screen.SetSize(width, height)
 	screen.Clear()
 	main.SetRect(0, 0, width, height)
@@ -132,7 +133,7 @@ func TestHeaderStylesPreserveLayoutAndVisibility(t *testing.T) {
 	a.ReloadStyles()
 	assert.Same(t, header, main.ItemAt(0))
 	assert.False(t, a.showLogo)
-	assert.Nil(t, header.(*tview.Flex).ItemAt(2))
+	assert.Equal(t, 2, header.(*tview.Flex).GetItemCount())
 	a.toggleHeader(false, false)
 	assert.Same(t, a.statusIndicator(), main.ItemAt(0))
 }

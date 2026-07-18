@@ -13,7 +13,9 @@ import (
 	"github.com/derailed/k9s/internal/port"
 	"github.com/derailed/k9s/internal/slogs"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tview"
+	"github.com/derailed/k9s/internal/ui/dialog"
+	"github.com/derailed/k9s/internal/ui/tviewx"
+	"github.com/rivo/tview"
 )
 
 const portForwardKey = "portforward"
@@ -28,11 +30,10 @@ func ShowPortForwards(v ResourceViewer, path string, ports port.ContainerPortSpe
 	f := tview.NewForm()
 	f.SetItemPadding(0)
 	f.SetButtonsAlign(tview.AlignCenter).
-		SetButtonBackgroundColor(styles.ButtonBgColor.Color()).
-		SetButtonTextColor(styles.ButtonFgColor.Color()).
 		SetLabelColor(styles.LabelFgColor.Color()).
 		SetFieldTextColor(styles.FieldFgColor.Color()).
 		SetFieldBackgroundColor(styles.BgColor.Color())
+	dialog.StyleFormButtons(f, &styles)
 
 	pf, err := aa.PreferredPorts(ports)
 	if err != nil {
@@ -84,14 +85,7 @@ func ShowPortForwards(v ResourceViewer, path string, ports port.ContainerPortSpe
 	f.AddButton("Cancel", func() {
 		DismissPortForwards(v, pages)
 	})
-	for i := range 2 {
-		if b := f.GetButton(i); b != nil {
-			b.SetBackgroundColorActivated(styles.ButtonFocusBgColor.Color())
-			b.SetLabelColorActivated(styles.ButtonFocusFgColor.Color())
-		}
-	}
-
-	modal := tview.NewModalForm("<PortForward>", f)
+	modal := tviewx.NewModalForm("<PortForward>", f)
 	msg := path
 	if len(ports) >= 1 {
 		msg += "\n\nExposed Ports:\n" + ports.Dump()
@@ -105,13 +99,14 @@ func ShowPortForwards(v ResourceViewer, path string, ports port.ContainerPortSpe
 
 	pages.AddPage(portForwardKey, modal, false, true)
 	pages.ShowPage(portForwardKey)
-	v.App().SetFocus(pages.GetPrimitive(portForwardKey))
+	v.App().SetFocus(pages.GetPage(portForwardKey))
 }
 
 // DismissPortForwards dismiss the port forward dialog.
 func DismissPortForwards(v ResourceViewer, p *ui.Pages) {
 	p.RemovePage(portForwardKey)
-	v.App().SetFocus(p.CurrentPage().Item)
+	_, it := p.GetFrontPage()
+	v.App().SetFocus(it)
 }
 
 // ----------------------------------------------------------------------------

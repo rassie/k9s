@@ -9,8 +9,6 @@ require (
 	github.com/anchore/syft v1.55.0
 	github.com/atotto/clipboard v0.1.4
 	github.com/cenkalti/backoff/v4 v4.3.0
-	github.com/derailed/tcell/v2 v2.3.1-rc.4
-	github.com/derailed/tview v0.8.5
 	github.com/fatih/color v1.19.0
 	github.com/fsnotify/fsnotify v1.10.1
 	github.com/fvbommel/sortorder v1.2.1
@@ -318,7 +316,7 @@ require (
 	github.com/proglottis/gpgme v0.1.6 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/rivo/tview v0.42.0
-	github.com/rivo/uniseg v0.4.7 // indirect
+	github.com/rivo/uniseg v0.4.7
 	github.com/rubenv/sql-migrate v1.8.1 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/rust-secure-code/go-rustaudit v0.0.0-20250226111315-e20ec32e963c // indirect

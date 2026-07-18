@@ -17,7 +17,7 @@ import (
 	"github.com/derailed/k9s/internal/dao"
 	"github.com/derailed/k9s/internal/ui"
 	"github.com/derailed/k9s/internal/view"
-	"github.com/derailed/tview"
+	"github.com/rivo/tview"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -56,7 +56,7 @@ func TestLogFlush(t *testing.T) {
 	items.Lines(0, false, ll)
 	v.Flush(ll)
 
-	assert.Equal(t, "[orange::d]Waiting for logs...\n[black::]blee\n[green::]Bozo\n\n", v.Logs().GetText(false))
+	assert.Equal(t, "[orange::d]Waiting for logs...\n[black:-:-]blee\n[green:-:-]Bozo\n", v.Logs().GetText(false))
 }
 
 func BenchmarkLogFlush(b *testing.B) {
@@ -85,16 +85,16 @@ func BenchmarkLogFlush(b *testing.B) {
 
 func TestLogAnsi(t *testing.T) {
 	buff := bytes.NewBufferString("")
-	w := tview.ANSIWriter(buff, "white", "black")
+	w := tview.ANSIWriter(buff)
 	_, _ = fmt.Fprintf(w, "[YELLOW] ok")
 	assert.Equal(t, "[YELLOW] ok", buff.String())
 
 	v := tview.NewTextView()
 	v.SetDynamicColors(true)
-	aw := tview.ANSIWriter(v, "white", "black")
+	aw := tview.ANSIWriter(v)
 	s := "[2019-03-27T15:05:15,246][INFO ][o.e.c.r.a.AllocationService] [es-0] Cluster health status changed from [YELLOW] to [GREEN] (reason: [shards started [[.monitoring-es-6-2019.03.27][0]]"
 	_, _ = fmt.Fprintf(aw, "%s", s)
-	assert.Equal(t, s+"\n", v.GetText(false))
+	assert.Equal(t, s, v.GetText(false))
 }
 
 func TestLogViewSave(t *testing.T) {

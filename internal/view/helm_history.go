@@ -14,7 +14,7 @@ import (
 	"github.com/derailed/k9s/internal/render/helm"
 	"github.com/derailed/k9s/internal/ui"
 	"github.com/derailed/k9s/internal/ui/dialog"
-	"github.com/derailed/tcell/v2"
+	"github.com/gdamore/tcell/v2"
 )
 
 // History represents a helm History view.
@@ -30,7 +30,6 @@ func NewHistory(gvr *client.GVR) ResourceViewer {
 		ResourceViewer: NewValueExtender(NewBrowser(gvr)),
 	}
 	h.GetTable().SetColorerFn(helm.History{}.ColorerFunc())
-	h.GetTable().SetBorderFocusColor(tcell.ColorMediumSpringGreen)
 	h.GetTable().SetSelectedStyle(tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorMediumSpringGreen).Attributes(tcell.AttrNone))
 	h.AddBindKeysFn(h.bindKeys)
 	h.SetContextFn(h.HistoryContext)

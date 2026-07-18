@@ -18,7 +18,7 @@ import (
 	"github.com/derailed/k9s/internal/slogs"
 	"github.com/derailed/k9s/internal/ui"
 	"github.com/derailed/k9s/internal/ui/dialog"
-	"github.com/derailed/tcell/v2"
+	"github.com/gdamore/tcell/v2"
 )
 
 // PortForward presents active portforward viewer.
@@ -33,7 +33,6 @@ func NewPortForward(gvr *client.GVR) ResourceViewer {
 	p := PortForward{
 		ResourceViewer: NewBrowser(gvr),
 	}
-	p.GetTable().SetBorderFocusColor(tcell.ColorDodgerBlue)
 	p.GetTable().SetSelectedStyle(tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorDodgerBlue).Attributes(tcell.AttrNone))
 	p.GetTable().SetSortCol(ageCol, true)
 	p.SetContextFn(p.portForwardContext)

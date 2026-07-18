@@ -9,8 +9,8 @@ import (
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/model"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 )
 
 // Logger represents a generic log viewer.
@@ -40,7 +40,6 @@ func (l *Logger) Init(_ context.Context) error {
 	}
 	l.SetScrollable(true).SetWrap(true)
 	l.SetDynamicColors(true)
-	l.SetHighlightColor(tcell.ColorOrange)
 	l.SetTitleColor(tcell.ColorAqua)
 	l.SetInputCapture(l.keyboard)
 	l.SetBorderPadding(0, 0, 1, 1)
@@ -91,7 +90,6 @@ func (l *Logger) keyboard(evt *tcell.EventKey) *tcell.EventKey {
 func (l *Logger) StylesChanged(*config.Styles) {
 	l.SetBackgroundColor(l.app.Styles.BgColor())
 	l.SetTextColor(l.app.Styles.FgColor())
-	l.SetBorderFocusColor(l.app.Styles.Frame().Border.FocusColor.Color())
 }
 
 // SetSubject updates the subject.

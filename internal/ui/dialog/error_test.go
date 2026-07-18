@@ -8,7 +8,7 @@ import (
 
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/ui"
-	"github.com/derailed/tview"
+	"github.com/derailed/k9s/internal/ui/tviewx"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -17,8 +17,8 @@ func TestErrorDialog(t *testing.T) {
 
 	ShowError(new(config.Dialog), p, "Yo")
 
-	d := p.GetPrimitive(dialogKey).(*tview.ModalForm)
+	d := p.GetPage(dialogKey).(*tviewx.ModalForm)
 	assert.NotNil(t, d)
 	dismiss(p)
-	assert.Nil(t, p.GetPrimitive(dialogKey))
+	assert.Nil(t, p.GetPage(dialogKey))
 }

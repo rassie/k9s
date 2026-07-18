@@ -13,8 +13,8 @@ import (
 	"github.com/derailed/k9s/internal/model"
 	"github.com/derailed/k9s/internal/ui"
 	"github.com/derailed/k9s/internal/view/cmd"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 	"github.com/sahilm/fuzzy"
 	"k8s.io/apimachinery/pkg/labels"
 )
@@ -71,7 +71,6 @@ func (d *Details) Init(_ context.Context) error {
 	}
 	d.text.SetScrollable(true).SetWrap(true).SetRegions(true)
 	d.text.SetDynamicColors(true)
-	d.text.SetHighlightColor(tcell.ColorOrange)
 	d.SetTitleColor(tcell.ColorAqua)
 	d.SetInputCapture(d.keyboard)
 	d.SetBorderPadding(0, 0, 1, 1)
@@ -165,7 +164,6 @@ func (d *Details) keyboard(evt *tcell.EventKey) *tcell.EventKey {
 func (d *Details) StylesChanged(s *config.Styles) {
 	d.SetBackgroundColor(s.BgColor())
 	d.text.SetTextColor(s.FgColor())
-	d.SetBorderFocusColor(s.Frame().Border.FocusColor.Color())
 	d.TextChanged(d.model.Peek())
 }
 

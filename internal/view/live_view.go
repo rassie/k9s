@@ -16,8 +16,8 @@ import (
 	"github.com/derailed/k9s/internal/slogs"
 	"github.com/derailed/k9s/internal/ui"
 	"github.com/derailed/k9s/internal/view/cmd"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 	"github.com/sahilm/fuzzy"
 	"k8s.io/apimachinery/pkg/labels"
 )
@@ -74,7 +74,6 @@ func (v *LiveView) Init(_ context.Context) error {
 	}
 	v.text.SetScrollable(true).SetWrap(true).SetRegions(true)
 	v.text.SetDynamicColors(true)
-	v.text.SetHighlightColor(tcell.ColorOrange)
 	v.SetTitleColor(tcell.ColorAqua)
 	v.SetInputCapture(v.keyboard)
 	v.SetBorderPadding(0, 0, 1, 1)
@@ -219,7 +218,6 @@ func (v *LiveView) keyboard(evt *tcell.EventKey) *tcell.EventKey {
 func (v *LiveView) StylesChanged(s *config.Styles) {
 	v.SetBackgroundColor(s.BgColor())
 	v.text.SetTextColor(s.FgColor())
-	v.SetBorderFocusColor(s.Frame().Border.FocusColor.Color())
 }
 
 // Actions returns menu actions.

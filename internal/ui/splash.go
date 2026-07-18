@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/derailed/k9s/internal/config"
-	"github.com/derailed/tview"
+	"github.com/rivo/tview"
 )
 
 // LogoSmall K9s small log.

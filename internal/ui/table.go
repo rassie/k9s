@@ -17,8 +17,8 @@ import (
 	"github.com/derailed/k9s/internal/render"
 	"github.com/derailed/k9s/internal/slogs"
 	"github.com/derailed/k9s/internal/vul"
-	"github.com/derailed/tcell/v2"
-	"github.com/derailed/tview"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 	"k8s.io/apimachinery/pkg/util/sets"
 )
 
@@ -332,7 +332,6 @@ func (t *Table) ViewSettingsChanged(vs *config.ViewSetting) {
 func (t *Table) StylesChanged(s *config.Styles) {
 	t.SetBackgroundColor(s.Table().BgColor.Color())
 	t.SetBorderColor(s.Frame().Border.FgColor.Color())
-	t.SetBorderFocusColor(s.Frame().Border.FocusColor.Color())
 	t.SetSelectedStyle(
 		tcell.StyleDefault.Foreground(t.styles.Table().CursorFgColor.Color()).
 			Background(t.styles.Table().CursorBgColor.Color()).Attributes(tcell.AttrBold))
