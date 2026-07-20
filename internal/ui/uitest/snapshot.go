@@ -62,7 +62,14 @@ func attrNames(attr tcell.AttrMask) string {
 // RGB/Hex, which would otherwise make legend assignment flaky.
 func styleDesc(c *tcell.SimCell) string {
 	fg, bg, attr := c.Style.Decompose()
-	return fmt.Sprintf("fg=%s bg=%s attr=%s", colorName(fg), colorName(bg), attrNames(attr))
+	desc := fmt.Sprintf("fg=%s bg=%s attr=%s", colorName(fg), colorName(bg), attrNames(attr))
+	// tcell renders underlines from UnderlineStyle, not the attribute bit, and
+	// the two can diverge (a tag's '-' flag reset clears only the bit). Track
+	// it separately so that divergence is visible in goldens.
+	if us := c.Style.GetUnderlineStyle(); us != tcell.UnderlineStyleNone {
+		desc += fmt.Sprintf(" ulstyle=%d", us)
+	}
+	return desc
 }
 
 // RenderSnapshot draws p onto a headless SimulationScreen of the given size and
