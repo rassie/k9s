@@ -22,6 +22,7 @@ import (
 	"github.com/derailed/k9s/internal/model"
 	"github.com/derailed/k9s/internal/slogs"
 	"github.com/derailed/k9s/internal/ui"
+	"github.com/derailed/k9s/internal/ui/tviewx"
 	"github.com/derailed/k9s/internal/view/cmd"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
@@ -89,11 +90,13 @@ func (l *Log) Init(ctx context.Context) (err error) {
 		return e
 	}
 	l.logs.SetBorderPadding(0, 0, 1, 1)
-	l.logs.SetText("[orange::d]" + logMessage)
+	// The trailing [::D] closes the dim flag: tview's tag parser applies flags
+	// additively, so an unclosed 'd' would bleed into appended log lines.
+	l.logs.SetText("[orange::d]" + logMessage + "[::D]")
 	l.logs.SetWrap(l.app.Config.K9s.Logger.TextWrap)
 	l.logs.SetMaxLines(l.app.Config.K9s.Logger.BufferSize)
 
-	l.ansiWriter = tview.ANSIWriter(l.logs)
+	l.ansiWriter = tviewx.ANSIWriter(l.logs)
 	l.AddItem(l.logs, 0, 1, true)
 	l.bindKeys()
 
