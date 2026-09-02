@@ -184,6 +184,8 @@ func (a *App) layout(ctx context.Context) {
 }
 
 func (*App) initSignals() {
+	initDumpSignal()
+
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGHUP)
 
