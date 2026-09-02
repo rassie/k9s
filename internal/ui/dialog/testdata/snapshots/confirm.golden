@@ -3,21 +3,21 @@
 
 
                   ╔═══════<Confirm>══════╗
-..................ddddddddcccccccccddddddd
+..................ccccccccbbbbbbbbbccccccc
                   ║                      ║
-..................d......................d
+..................c......................c
                   ║   Blow up the pod?   ║
-..................d...eeeeeeeeeeeeeeee...d
+..................c...dddddddddddddddd...c
                   ║                      ║
-..................d......................d
+..................c......................c
                   ║                      ║
-..................d......................d
+..................c......................c
                   ║    Cancel     OK     ║
-..................d..ffaaaaaaff.ggbbgg...d
+..................c..eeaaaaaaee...dd.....c
                   ║                      ║
-..................d......................d
+..................c......................c
                   ╚══════════════════════╝
-..................dddddddddddddddddddddddd
+..................cccccccccccccccccccccccc
 
 
 
@@ -25,9 +25,7 @@
 --- style legend ---
 . = fg=default bg=#000000 attr=none
 a = fg=#000000 bg=#1e90ff attr=none
-b = fg=#000000 bg=#483d8b attr=none
-c = fg=#00ffff bg=#000000 attr=none
-d = fg=#1e90ff bg=#000000 attr=none
-e = fg=#5f9ea0 bg=#000000 attr=none
-f = fg=default bg=#1e90ff attr=none
-g = fg=default bg=#483d8b attr=none
+b = fg=#00ffff bg=#000000 attr=none
+c = fg=#1e90ff bg=#000000 attr=none
+d = fg=#5f9ea0 bg=#000000 attr=none
+e = fg=default bg=#1e90ff attr=none

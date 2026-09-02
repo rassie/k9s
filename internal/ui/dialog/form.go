@@ -12,14 +12,17 @@ import (
 // StyleFormButtons applies the dialog button colors to a form. rivo/tview
 // reapplies the form-level button styles to every button on each draw, so the
 // focus colors must be set on the form itself; styling individual buttons has
-// no lasting effect. Note that the buttonFgColor/buttonBgColor skin settings
-// take effect for the first time here: the derailed/tview fork never applied
-// form-level button colors, so unfocused buttons used to render with the
-// default foreground on the modal background regardless of the skin.
+// no lasting effect.
+//
+// Unfocused buttons deliberately render like they did with the derailed/tview
+// fork: primary text on the modal background, so they blend into the dialog and
+// only the focused button stands out. The fork never applied form-level button
+// colors, so the buttonFgColor/buttonBgColor skin keys have never had an effect;
+// honoring them here would paint every button and obscure which one is active.
 func StyleFormButtons(f *tview.Form, styles *config.Dialog) *tview.Form {
 	f.SetButtonStyle(tcell.StyleDefault.
-		Foreground(styles.ButtonFgColor.Color()).
-		Background(styles.ButtonBgColor.Color()))
+		Foreground(tview.Styles.PrimaryTextColor).
+		Background(tview.Styles.ContrastBackgroundColor))
 	f.SetButtonActivatedStyle(tcell.StyleDefault.
 		Foreground(styles.ButtonFocusFgColor.Color()).
 		Background(styles.ButtonFocusBgColor.Color()))

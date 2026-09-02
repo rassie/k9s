@@ -1,57 +1,55 @@
 
 
 ┌──────────────────────────────── test(blee)[2] ───────────────────────────────┐
-gggggggggggggggggggggggggggggggggieeeeekkkkfflffgggggggggggggggggggggggggggggggg
+fffffffffffffffffffffffffffffffffhdddddjjjjeekeeffffffffffffffffffffffffffffffff
 │ NAME                                                                         │
-g.jjjj.........................................................................g
+f.iiii.........................................................................f
 │ a                                                                            │
-g.cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.g
+f.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.f
 │ b                                                                            │
-g.jjjj.........................................................................g
+f.iiii.........................................................................f
 │                        ╔══════════<Delete>══════════╗                        │
-g........................hhhhhhhhhhhffffffffhhhhhhhhhhh........................g
+f........................gggggggggggeeeeeeeeggggggggggg........................f
 │                        ║                            ║                        │
-g........................h............................h........................g
+f........................g............................g........................f
 │                        ║          Delete a?         ║                        │
-g........................h..........iiiiiiiii.........h........................g
+f........................g..........hhhhhhhhh.........g........................f
 │                        ║                            ║                        │
-g........................h............................h........................g
+f........................g............................g........................f
 │                        ║ Propagation: Background    ║                        │
-g........................h.mmmmmmmmmmmm.mmmmmmmmmm....h........................g
+f........................g.llllllllllll.llllllllll....g........................f
 │                        ║ Force:                     ║                        │
-g........................h.mmmmmm.......m.............h........................g
+f........................g.llllll.......l.............g........................f
 │                        ║                            ║                        │
-g........................h............................h........................g
+f........................g............................g........................f
 │                        ║       Cancel     OK        ║                        │
-g........................h.....nnaaaaaann.oobboo......h........................g
+f........................g.....mmaaaaaamm...hh........g........................f
 │                        ║                            ║                        │
-g........................h............................h........................g
+f........................g............................g........................f
 │                        ╚════════════════════════════╝                        │
-g........................hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh........................g
+f........................gggggggggggggggggggggggggggggg........................f
 │                                                                              │
-g..............................................................................g
+f..............................................................................f
 │                                                                              │
-g..............................................................................g
+f..............................................................................f
 └──────────────────────────────────────────────────────────────────────────────┘
-gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   <test>
-.ddddddddm
+.ccccccccl
 
 
 --- style legend ---
 . = fg=default bg=#000000 attr=none
 a = fg=#000000 bg=#1e90ff attr=none
-b = fg=#000000 bg=#483d8b attr=none
-c = fg=#000000 bg=#87cefa attr=bold
-d = fg=#000000 bg=#ffa500 attr=bold
-e = fg=#00ffff bg=#000000 attr=bold
-f = fg=#00ffff bg=#000000 attr=none
-g = fg=#1e90ff bg=#000000 attr=bold
-h = fg=#1e90ff bg=#000000 attr=none
-i = fg=#5f9ea0 bg=#000000 attr=none
-j = fg=#87cefa bg=#000000 attr=none
-k = fg=#ff00ff bg=#000000 attr=bold
-l = fg=#ffefd5 bg=#000000 attr=bold
-m = fg=#ffffff bg=#000000 attr=none
-n = fg=default bg=#1e90ff attr=none
-o = fg=default bg=#483d8b attr=none
+b = fg=#000000 bg=#87cefa attr=bold
+c = fg=#000000 bg=#ffa500 attr=bold
+d = fg=#00ffff bg=#000000 attr=bold
+e = fg=#00ffff bg=#000000 attr=none
+f = fg=#1e90ff bg=#000000 attr=bold
+g = fg=#1e90ff bg=#000000 attr=none
+h = fg=#5f9ea0 bg=#000000 attr=none
+i = fg=#87cefa bg=#000000 attr=none
+j = fg=#ff00ff bg=#000000 attr=bold
+k = fg=#ffefd5 bg=#000000 attr=bold
+l = fg=#ffffff bg=#000000 attr=none
+m = fg=default bg=#1e90ff attr=none
