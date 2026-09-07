@@ -233,6 +233,24 @@ func TestScenarioTableMarkRange(t *testing.T) {
 	assert.Equal(t, []string{"ns1/c"}, v.GetSelectedItems())
 }
 
+// TestScenarioEmptyTableNavigation navigates a header-only table, as shown for
+// "no resources found" or a filter without matches. rivo/tview spins forever
+// on that (rivo/tview#944) once a draw has parked the selection past the last
+// row; the table view swallows navigation keys on such a table. Without that
+// guard the key times out here, which relies on the scenario drawing first.
+func TestScenarioEmptyTableNavigation(t *testing.T) {
+	s := newScenario(t)
+	v := s.pushTable(client.NewGVR("test"), newScenarioTableModel())
+	require.True(t, v.HasFocus(), "pushed table must hold focus")
+	require.Equal(t, 1, v.GetRowCount())
+
+	s.pressKey(tcell.KeyDown)
+	s.pressRune('j')
+	s.pressKey(tcell.KeyEnd)
+
+	s.assertSnapshot("scenario_table_empty_nav")
+}
+
 // TestScenarioTableNavigationEdges moves through a table taller than the view:
 // jumps to both ends and pages in between, which exercises the widget's
 // selection walk and how it scrolls the selection into view.
