@@ -116,14 +116,46 @@ func (t *Table) keyboard(evt *tcell.EventKey) *tcell.EventKey {
 	}
 
 	if key == tcell.KeyUp || key == tcell.KeyDown {
-		return evt
+		return t.navigate(evt)
 	}
 
 	if a, ok := t.Actions().Get(ui.AsKey(evt)); ok && !t.app.Content.IsTopDialog() {
 		return a.Action(evt)
 	}
 
+	return t.navigate(evt)
+}
+
+// navigate hands a key on to tview's table navigation, unless the table has
+// no data rows to navigate. rivo/tview's Table walks the cells looking for a
+// selectable one and only stops when it gets back to the previously selected
+// cell; on a header-only table its Draw has parked the selection past the last
+// row, so that cell is never reached and the key handler spins forever,
+// freezing the UI (rivo/tview#944). The derailed fork bounded the same walk by
+// row index and never hit this.
+func (t *Table) navigate(evt *tcell.EventKey) *tcell.EventKey {
+	if t.GetRowCount() <= 1 && isTableNavKey(evt) {
+		return nil
+	}
+
 	return evt
+}
+
+// isTableNavKey reports whether tview's Table would move the selection on evt.
+func isTableNavKey(evt *tcell.EventKey) bool {
+	switch evt.Key() {
+	case tcell.KeyUp, tcell.KeyDown, tcell.KeyLeft, tcell.KeyRight,
+		tcell.KeyHome, tcell.KeyEnd, tcell.KeyPgUp, tcell.KeyPgDn,
+		tcell.KeyCtrlF, tcell.KeyCtrlB:
+		return true
+	case tcell.KeyRune:
+		switch evt.Rune() {
+		case 'j', 'k', 'h', 'l', 'g', 'G':
+			return true
+		}
+	}
+
+	return false
 }
 
 // Name returns the table name.
