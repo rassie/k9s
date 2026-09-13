@@ -39,12 +39,13 @@ var _ ResourceViewer = (*Xray)(nil)
 type Xray struct {
 	*ui.Tree
 
-	app      *App
-	gvr      *client.GVR
-	meta     *metav1.APIResource
-	model    *model.Tree
-	cancelFn context.CancelFunc
-	envFn    EnvFunc
+	app         *App
+	gvr         *client.GVR
+	meta        *metav1.APIResource
+	model       *model.Tree
+	cancelFn    context.CancelFunc
+	envFn       EnvFunc
+	actionsPath string
 }
 
 // NewXray returns a new view.
@@ -95,7 +96,15 @@ func (x *Xray) Init(ctx context.Context) error {
 			slog.Error("No ref found on node", slogs.FQN, n.GetText())
 			return
 		}
-		x.SetSelectedItem(spec.AsPath())
+		// Every refresh rebuilds the tree and reselects the node by path, which
+		// the tree view reports as a change. Only rebuild the actions, which
+		// reloads hotkeys and plugins, when a different node got selected.
+		path := spec.AsPath()
+		if path == x.actionsPath {
+			return
+		}
+		x.actionsPath = path
+		x.SetSelectedItem(path)
 		x.refreshActions()
 	})
 	x.refreshActions()
