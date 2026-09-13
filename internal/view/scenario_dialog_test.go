@@ -74,3 +74,26 @@ func TestScenarioDeleteDialogDefaultButton(t *testing.T) {
 	assert.False(t, out.confirmed, "Enter on the freshly opened dialog must not confirm the deletion")
 	assert.False(t, s.app.Content.IsTopDialog())
 }
+
+// TestScenarioDeleteDialogPropagationDefault opens the propagation drop-down
+// with Down, accepts the highlighted option and confirms. Opening the list
+// must not move the highlight, or the deletion silently runs with another
+// propagation policy than the one shown.
+func TestScenarioDeleteDialogPropagationDefault(t *testing.T) {
+	s := newScenario(t)
+	s.pushTable(client.NewGVR("test"), newScenarioTableModel("a", "b"))
+	out := s.showDeleteDialog()
+
+	s.pressKey(tcell.KeyUp)    // Cancel -> Force
+	s.pressKey(tcell.KeyUp)    // Force -> Propagation
+	s.pressKey(tcell.KeyDown)  // open the option list
+	s.pressKey(tcell.KeyEnter) // accept the highlighted option
+	s.pressKey(tcell.KeyTab)   // Propagation -> Force
+	s.pressKey(tcell.KeyTab)   // Force -> Cancel
+	s.pressKey(tcell.KeyTab)   // Cancel -> OK
+	s.pressKey(tcell.KeyEnter)
+
+	require.True(t, out.confirmed, "OK must confirm the deletion")
+	require.NotNil(t, out.propagation)
+	assert.Equal(t, metav1.DeletePropagationBackground, *out.propagation)
+}
