@@ -147,9 +147,12 @@ func (p *Prompt) keyboard(evt *tcell.EventKey) *tcell.EventKey {
 		return evt
 	}
 
+	// Legacy terminals send the same byte for Ctrl-H and Backspace, Ctrl-I and
+	// Tab, Ctrl-M and Enter; the kitty keyboard protocol reports the Ctrl chords
+	// as keys of their own, so they are handled alongside their counterparts.
 	//nolint:exhaustive
 	switch evt.Key() {
-	case tcell.KeyBackspace2, tcell.KeyBackspace, tcell.KeyDelete:
+	case tcell.KeyBackspace2, tcell.KeyBackspace, tcell.KeyCtrlH, tcell.KeyDelete:
 		p.model.Delete()
 
 	case tcell.KeyRune:
@@ -165,7 +168,7 @@ func (p *Prompt) keyboard(evt *tcell.EventKey) *tcell.EventKey {
 		p.model.ClearText(true)
 		p.model.SetActive(false)
 
-	case tcell.KeyEnter, tcell.KeyCtrlE:
+	case tcell.KeyEnter, tcell.KeyCtrlM, tcell.KeyCtrlE:
 		p.model.SetText(p.model.GetText(), "", true)
 		p.model.SetActive(false)
 
@@ -182,7 +185,7 @@ func (p *Prompt) keyboard(evt *tcell.EventKey) *tcell.EventKey {
 			p.model.SetText(p.model.GetText(), s, true)
 		}
 
-	case tcell.KeyTab, tcell.KeyRight, tcell.KeyCtrlF:
+	case tcell.KeyTab, tcell.KeyCtrlI, tcell.KeyRight, tcell.KeyCtrlF:
 		if s, ok := m.CurrentSuggestion(); ok {
 			p.model.SetText(p.model.GetText()+s, "", true)
 			m.ClearSuggestions()

@@ -4,11 +4,13 @@
 package ui_test
 
 import (
+	"sort"
 	"testing"
 
 	"github.com/derailed/k9s/internal/config"
 	"github.com/derailed/k9s/internal/model"
 	"github.com/derailed/k9s/internal/ui"
+	"github.com/derailed/k9s/internal/ui/uitest"
 	"github.com/gdamore/tcell/v2"
 	"github.com/stretchr/testify/assert"
 )
@@ -184,5 +186,40 @@ func TestPromptStyleChanged(t *testing.T) {
 
 		m.SetActive(true)
 		assert.Equal(t, testCase.expectedColor, prompt.GetBorderColor())
+	}
+}
+
+// TestPromptCtrlEditingKeys verifies that Ctrl-H, Ctrl-I and Ctrl-M delete,
+// complete and accept like Backspace, Tab and Enter. Legacy terminals send one
+// byte for each pair; the kitty keyboard protocol, which tcell enables,
+// reports the Ctrl chords as keys of their own.
+func TestPromptCtrlEditingKeys(t *testing.T) {
+	for proto, seqs := range map[string][3]string{
+		"legacy": {"\x08", "\t", "\r"},
+		"kitty":  {"\x1b[104;5u", "\x1b[105;5u", "\x1b[109;5u"},
+	} {
+		t.Run(proto, func(t *testing.T) {
+			v := ui.NewPrompt(nil, true, config.NewStyles())
+			m := model.NewFishBuff(':', model.CommandBuffer)
+			m.SetSuggestionFn(func(s string) sort.StringSlice {
+				if s == "bl" {
+					return sort.StringSlice{"ee"}
+				}
+				return nil
+			})
+			v.SetModel(m)
+			m.AddListener(v)
+			m.SetActive(true)
+
+			v.SendStrokes("blx")
+			v.SendKey(uitest.ScanKey(t, seqs[0]))
+			assert.Equal(t, "bl", m.GetText(), "Ctrl-H must delete")
+
+			v.SendKey(uitest.ScanKey(t, seqs[1]))
+			assert.Equal(t, "blee", m.GetText(), "Ctrl-I must complete")
+
+			v.SendKey(uitest.ScanKey(t, seqs[2]))
+			assert.False(t, m.IsActive(), "Ctrl-M must accept")
+		})
 	}
 }
