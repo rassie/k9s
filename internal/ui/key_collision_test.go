@@ -6,8 +6,8 @@ package ui
 import (
 	"fmt"
 	"testing"
-	"time"
 
+	"github.com/derailed/k9s/internal/ui/uitest"
 	"github.com/gdamore/tcell/v2"
 	"github.com/stretchr/testify/assert"
 )
@@ -80,7 +80,7 @@ func TestAsKeyCtrlPunctuationProtocols(t *testing.T) {
 				"kitty":           fmt.Sprintf("\x1b[%d;5u", u.r),
 				"modifyOtherKeys": fmt.Sprintf("\x1b[27;5;%d~", u.r),
 			} {
-				evt := scanKey(t, seq)
+				evt := uitest.ScanKey(t, seq)
 				assert.Equal(t, u.key, AsKey(evt), "%s: Ctrl+%q", proto, u.r)
 			}
 		})
@@ -104,7 +104,7 @@ func TestAsKeyCtrlModifierCombos(t *testing.T) {
 	}
 
 	for name, seq := range uu {
-		assert.Equal(t, tcell.KeyCtrlD, AsKey(scanKey(t, seq)), name)
+		assert.Equal(t, tcell.KeyCtrlD, AsKey(uitest.ScanKey(t, seq)), name)
 	}
 }
 
@@ -131,20 +131,7 @@ func TestAsKeyUnbindable(t *testing.T) {
 		"legacy alt+shift+a": "\x1bA",
 		"kitty alt+a":        "\x1b[97;3u",
 	} {
-		assert.Equal(t, tcell.KeyRune, AsKey(scanKey(t, seq)), name)
-	}
-}
-
-func scanKey(t *testing.T, seq string) *tcell.EventKey {
-	t.Helper()
-	evts := make(chan tcell.Event, 1)
-	tcell.NewInputProcessor(evts).ScanUTF8([]byte(seq))
-	select {
-	case evt := <-evts:
-		return evt.(*tcell.EventKey)
-	case <-time.After(time.Second): // a lone ESC is only reported after tcell's escape timeout
-		t.Fatalf("no key event for %q", seq)
-		return nil
+		assert.Equal(t, tcell.KeyRune, AsKey(uitest.ScanKey(t, seq)), name)
 	}
 }
 
