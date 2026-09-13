@@ -733,7 +733,7 @@ func (a *App) helpCmd(evt *tcell.EventKey) *tcell.EventKey {
 
 // previousCommand returns to the command prior to the current one in the history
 func (a *App) previousCommand(evt *tcell.EventKey) *tcell.EventKey {
-	if evt != nil && evt.Rune() == rune(ui.KeyLeftBracket) && a.Prompt().InCmdMode() {
+	if evt != nil && evt.Rune() == '[' && a.Prompt().InCmdMode() {
 		return evt
 	}
 	c, ok := a.cmdHistory.Back()
@@ -747,7 +747,7 @@ func (a *App) previousCommand(evt *tcell.EventKey) *tcell.EventKey {
 
 // nextCommand returns to the command subsequent to the current one in the history
 func (a *App) nextCommand(evt *tcell.EventKey) *tcell.EventKey {
-	if evt != nil && evt.Rune() == rune(ui.KeyRightBracket) && a.Prompt().InCmdMode() {
+	if evt != nil && evt.Rune() == ']' && a.Prompt().InCmdMode() {
 		return evt
 	}
 	c, ok := a.cmdHistory.Forward()

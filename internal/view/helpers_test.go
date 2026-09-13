@@ -15,6 +15,7 @@ import (
 	"github.com/derailed/k9s/internal/config/mock"
 	"github.com/derailed/k9s/internal/model1"
 	"github.com/derailed/k9s/internal/render"
+	"github.com/derailed/k9s/internal/ui"
 	"github.com/gdamore/tcell/v2"
 	"github.com/sahilm/fuzzy"
 	"github.com/stretchr/testify/assert"
@@ -108,8 +109,12 @@ func TestAsKey(t *testing.T) {
 		err error
 		e   tcell.Key
 	}{
-		"cool": {k: "Ctrl-A", e: tcell.KeyCtrlA},
-		"miss": {k: "fred", e: 0, err: errors.New(`invalid key specified: "fred"`)},
+		"cool":       {k: "Ctrl-A", e: tcell.KeyCtrlA},
+		"ctrl-space": {k: "Ctrl-Space", e: tcell.KeyCtrlSpace},
+		"ctrl-sq":    {k: "Ctrl-]", e: tcell.KeyCtrlRightSq},
+		"shift-2":    {k: "Shift-2", e: ui.KeyShift2},
+		"shift-6":    {k: "Shift-6", e: ui.KeyShift6},
+		"miss":       {k: "fred", e: 0, err: errors.New(`invalid key specified: "fred"`)},
 	}
 
 	for k := range uu {
