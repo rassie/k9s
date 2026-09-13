@@ -1,0 +1,50 @@
+
+hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+┌──────────────────────────────────── Help ────────────────────────────────────┐
+fffffffffffffffffffffffffffffffffffff.dddddfffffffffffffffffffffffffffffffffffff
+│ RESOURCE                       GENERAL                              NAVIGATI │
+fhcccccccch.ccccccccchhhhhhhhhhh.ccccccchhhhhh.ccccccccccccchhhhhhhhh.cccccccchf
+│ <?>       Help                 <ctrl-a>      Aliases                <j>      │
+fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
+│ <shift-a> Sort Age             <q>           Back                   <shift-g │
+fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
+│ <shift-n> Sort Name            <esc>         Back/Clear             <g>      │
+fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
+│ <shift-p> Sort Namespace       <ctrl-u>      Command Clear          <[>      │
+fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
+│ <shift-o> Sort Selected Column <:cmd>        Command mode           <]>      │
+fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
+│ <shift-s> Sort Status          <tab>         Field Next             <->      │
+fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
+│ <ctrl-z>  Toggle Faults        <backtab>     Field Previous         <h>      │
+fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
+│ <ctrl-w>  Toggle Wide          </term>       Filter mode            <ctrl-f> │
+fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
+│                                <?>           Help                   <ctrl-b> │
+fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
+│                                <space>       Mark                   <l>      │
+fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
+│                                <ctrl-\>      Mark Clear             <k>      │
+fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
+│                                <ctrl-space>  Mark Range                      │
+fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
+│                                <:q>          Quit                            │
+fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
+│                                <ctrl-r>      Reload                          │
+fheeeeeeeee......................eeeeeeeeeeeee........................eeeeeeeehf
+└──────────────────────────────────────────────────────────────────────────────┘
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  <test>   <help>
+haaaaaaaagbbbbbbbbghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+
+hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+--- style legend ---
+. = fg=#5f9ea0 bg=#000000 attr=none
+a = fg=#000000 bg=#00ffff attr=bold
+b = fg=#000000 bg=#ffa500 attr=bold
+c = fg=#008000 bg=#000000 attr=none
+d = fg=#00ffff bg=#000000 attr=bold
+e = fg=#1e90ff bg=#000000 attr=bold
+f = fg=#87cefa bg=#000000 attr=bold
+g = fg=#ffffff bg=#000000 attr=none
+h = fg=default bg=#000000 attr=none

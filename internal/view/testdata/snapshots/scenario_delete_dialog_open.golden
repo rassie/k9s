@@ -1,0 +1,55 @@
+
+
+┌─────────────────────────────── test(blee)[2] ────────────────────────────────┐
+ffffffffffffffffffffffffffffffffhdddddjjjjeekeefffffffffffffffffffffffffffffffff
+│ NAME                                                                         │
+f.iiii.........................................................................f
+│ a                                                                            │
+f.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.f
+│ b                                                                            │
+f.iiii.........................................................................f
+│                        ┌──────────<Delete>──────────┐                        │
+f........................gggggggggggeeeeeeeeggggggggggg........................f
+│                        │                            │                        │
+f........................g............................g........................f
+│                        │         Delete a?          │                        │
+f........................g.........hhhhhhhhh..........g........................f
+│                        │                            │                        │
+f........................g............................g........................f
+│                        │ Propagation: Background    │                        │
+f........................g.llllllllllll.llllllllll....g........................f
+│                        │ Force:                     │                        │
+f........................g.llllll.......l.............g........................f
+│                        │                            │                        │
+f........................g............................g........................f
+│                        │       Cancel     OK        │                        │
+f........................g.....mmaaaaaamm...hh........g........................f
+│                        │                            │                        │
+f........................g............................g........................f
+│                        └────────────────────────────┘                        │
+f........................gggggggggggggggggggggggggggggg........................f
+│                                                                              │
+f..............................................................................f
+│                                                                              │
+f..............................................................................f
+└──────────────────────────────────────────────────────────────────────────────┘
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  <test>
+.ccccccccl
+
+
+--- style legend ---
+. = fg=default bg=#000000 attr=none
+a = fg=#000000 bg=#1e90ff attr=none
+b = fg=#000000 bg=#87cefa attr=bold
+c = fg=#000000 bg=#ffa500 attr=bold
+d = fg=#00ffff bg=#000000 attr=bold
+e = fg=#00ffff bg=#000000 attr=none
+f = fg=#1e90ff bg=#000000 attr=bold
+g = fg=#1e90ff bg=#000000 attr=none
+h = fg=#5f9ea0 bg=#000000 attr=none
+i = fg=#87cefa bg=#000000 attr=none
+j = fg=#ff00ff bg=#000000 attr=bold
+k = fg=#ffefd5 bg=#000000 attr=bold
+l = fg=#ffffff bg=#000000 attr=none
+m = fg=default bg=#1e90ff attr=none
