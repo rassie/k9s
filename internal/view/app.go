@@ -206,16 +206,22 @@ func (a *App) suggestCommand() model.SuggestionFunc {
 			return a.cmdHistory.List()
 		}
 
-		ls := strings.ToLower(s)
-		for alias := range maps.Keys(a.command.alias.Alias) {
-			if suggest, ok := cmd.ShouldAddSuggest(ls, alias); ok {
-				entries = append(entries, suggest)
+		if a.command.alias != nil {
+			ls := strings.ToLower(s)
+			for alias := range maps.Keys(a.command.alias.Alias) {
+				if suggest, ok := cmd.ShouldAddSuggest(ls, alias); ok {
+					entries = append(entries, suggest)
+				}
 			}
 		}
 
-		namespaceNames, err := a.factory.Client().ValidNamespaceNames()
-		if err != nil {
-			slog.Error("Failed to obtain list of namespaces", slogs.Error, err)
+		var namespaceNames client.NamespaceNames
+		if a.factory != nil {
+			var err error
+			namespaceNames, err = a.factory.Client().ValidNamespaceNames()
+			if err != nil {
+				slog.Error("Failed to obtain list of namespaces", slogs.Error, err)
+			}
 		}
 		entries = append(entries, cmd.SuggestSubCommand(s, namespaceNames, contextNames)...)
 		if len(entries) == 0 {
