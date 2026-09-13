@@ -127,8 +127,8 @@ func TestModalFormArrowNavInputField(t *testing.T) {
 }
 
 // TestModalFormArrowNavDropDown verifies drop-down arrow handling: while
-// closed, Up moves to the previous element but Down still opens the option
-// list; while open, both arrows pass through so the list can be navigated.
+// closed, Up moves to the previous element and Down opens the option list as
+// Enter; while open, both arrows pass through so the list can be navigated.
 func TestModalFormArrowNavDropDown(t *testing.T) {
 	form := tview.NewForm()
 	form.AddDropDown("Propagation:", []string{"Background", "Foreground"}, 0, nil)
@@ -146,11 +146,43 @@ func TestModalFormArrowNavDropDown(t *testing.T) {
 	out := capture(tcell.NewEventKey(tcell.KeyUp, 0, tcell.ModNone))
 	assert.Equal(t, tcell.KeyBacktab, out.Key(), "Up on a closed drop-down must move to the previous element")
 	out = capture(tcell.NewEventKey(tcell.KeyDown, 0, tcell.ModNone))
-	assert.Equal(t, tcell.KeyDown, out.Key(), "Down must reach the closed drop-down so it can open its list")
+	assert.Equal(t, tcell.KeyEnter, out.Key(), "Down must open the closed drop-down as Enter does")
 
 	// Open the list and ensure the arrows now pass through for navigation.
-	dd.InputHandler()(tcell.NewEventKey(tcell.KeyDown, 0, tcell.ModNone), func(tview.Primitive) {})
+	dd.InputHandler()(tcell.NewEventKey(tcell.KeyEnter, 0, tcell.ModNone), func(tview.Primitive) {})
 	assert.True(t, dd.IsOpen())
 	out = capture(tcell.NewEventKey(tcell.KeyUp, 0, tcell.ModNone))
 	assert.Equal(t, tcell.KeyUp, out.Key(), "arrows must pass through to an open drop-down list")
+}
+
+// TestModalFormDropDownOpenKeepsSelection opens a closed drop-down with Down
+// and accepts the highlighted option right away. rivo/tview forwards Down to
+// the list it just opened, which moves the highlight one option further; the
+// derailed fork only opened the list. Accepting must keep the current option,
+// or the delete dialog silently switches its propagation policy.
+func TestModalFormDropDownOpenKeepsSelection(t *testing.T) {
+	form := tview.NewForm()
+	selected := -1
+	form.AddDropDown("Propagation:", []string{"Background", "Foreground"}, 0, func(_ string, idx int) {
+		selected = idx
+	})
+	form.AddButton("OK", nil)
+	tviewx.NewModalForm("<Test>", form)
+
+	app := tview.NewApplication()
+	app.SetRoot(form, true)
+	app.SetFocus(form)
+	setFocus := func(p tview.Primitive) { app.SetFocus(p) }
+
+	dd, ok := form.GetFormItem(0).(*tview.DropDown)
+	assert.True(t, ok)
+
+	form.InputHandler()(tcell.NewEventKey(tcell.KeyDown, 0, tcell.ModNone), setFocus)
+	assert.True(t, dd.IsOpen(), "Down must open the drop-down list")
+	form.InputHandler()(tcell.NewEventKey(tcell.KeyEnter, 0, tcell.ModNone), setFocus)
+
+	assert.False(t, dd.IsOpen())
+	assert.Equal(t, 0, selected, "opening the list must not move the selection")
+	idx, _ := dd.GetCurrentOption()
+	assert.Equal(t, 0, idx)
 }

@@ -22,8 +22,10 @@ func NewModalForm(title string, form *tview.Form) *ModalForm {
 	// rivo/tview only moves between form elements on Tab/Backtab, whereas the
 	// derailed fork also honored the arrow keys. Restore that by translating
 	// arrows into Tab/Backtab, sparing only the keys an item needs for itself:
-	// an open drop-down list navigates with Up/Down, a closed one still opens
-	// on Down, and input fields keep Left/Right for cursor movement.
+	// an open drop-down list navigates with Up/Down, and input fields keep
+	// Left/Right for cursor movement. A closed drop-down opens on Down, sent as
+	// Enter: rivo/tview would also forward Down to the list it just opened and
+	// move the highlight, so accepting right away picked the next option.
 	backtab := func() *tcell.EventKey { return tcell.NewEventKey(tcell.KeyBacktab, 0, tcell.ModNone) }
 	tab := func() *tcell.EventKey { return tcell.NewEventKey(tcell.KeyTab, 0, tcell.ModNone) }
 	m.form.SetInputCapture(func(evt *tcell.EventKey) *tcell.EventKey {
@@ -39,8 +41,13 @@ func NewModalForm(title string, form *tview.Form) *ModalForm {
 		case item >= 0:
 			switch fi := m.form.GetFormItem(item).(type) {
 			case *tview.DropDown:
-				if !fi.IsOpen() && evt.Key() == tcell.KeyUp {
-					return backtab()
+				if !fi.IsOpen() {
+					switch evt.Key() {
+					case tcell.KeyUp:
+						return backtab()
+					case tcell.KeyDown:
+						return tcell.NewEventKey(tcell.KeyEnter, 0, tcell.ModNone)
+					}
 				}
 			case *tview.Checkbox:
 				switch evt.Key() {
