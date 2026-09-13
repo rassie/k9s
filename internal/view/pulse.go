@@ -288,11 +288,7 @@ func (p *Pulse) bindKeys() {
 }
 
 func (p *Pulse) keyboard(evt *tcell.EventKey) *tcell.EventKey {
-	key := evt.Key()
-	if key == tcell.KeyRune {
-		key = tcell.Key(evt.Rune())
-	}
-	if a, ok := p.actions.Get(key); ok {
+	if a, ok := p.actions.Get(ui.AsKey(evt)); ok {
 		return a.Action(evt)
 	}
 

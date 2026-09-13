@@ -38,11 +38,11 @@ const (
 const (
 	KeyShift0 tcell.Key = 41
 	KeyShift1 tcell.Key = 33
-	KeyShift2 tcell.Key = 64
+	KeyShift2 tcell.Key = keyRuneBase + '@' - '@'
 	KeyShift3 tcell.Key = 35
 	KeyShift4 tcell.Key = 36
 	KeyShift5 tcell.Key = 37
-	KeyShift6 tcell.Key = 94
+	KeyShift6 tcell.Key = keyRuneBase + '^' - '@'
 	KeyShift7 tcell.Key = 38
 	KeyShift8 tcell.Key = 42
 	KeyShift9 tcell.Key = 40
@@ -81,23 +81,23 @@ const (
 	KeyColon        = 58
 	KeySpace        = 32
 	KeyDash         = 45
-	KeyLeftBracket  = 91
-	KeyRightBracket = 93
+	KeyLeftBracket  = keyRuneBase + '[' - '@'
+	KeyRightBracket = keyRuneBase + ']' - '@'
 )
 
-// keyShiftBase anchors k9s' synthetic Shift+<letter> keys in a private range
-// that sits above tcell's reserved key space (tcell uses 0-31, 64-95, 127 and
-// 256-346; tcell.Key is an int16, so values up to 32767 are available). The
-// ASCII codepoints of 'A'-'Z' (65-90) — which k9s used historically — cannot be
-// used anymore: tcell relocated KeyCtrlA..KeyCtrlZ onto exactly 65-90 in v2.10
-// (CSI-u key reporting, gdamore/tcell#671), which made Ctrl+<letter> and
-// Shift+<letter> collide on a single integer. AsKey performs the matching
-// encoding for incoming events.
-const keyShiftBase tcell.Key = 1024
+// keyRuneBase anchors a private mirror of tcell's control-key band. Since v2.10
+// (CSI-u key reporting, gdamore/tcell#671) tcell places KeyCtrlSpace..
+// KeyCtrlUnderscore on 64-95, exactly the ASCII codepoints of '@', 'A'-'Z',
+// '[', '\', ']', '^' and '_', which k9s historically used as key values for
+// those characters. Keys for these runes therefore live at keyRuneBase+(r-'@'),
+// above tcell's reserved key space (tcell uses 0-31, 64-95, 127 and 256-346;
+// tcell.Key is an int16). AsKey performs the matching encoding for incoming
+// events.
+const keyRuneBase tcell.Key = 1024
 
 // Define Shift Keys.
 const (
-	KeyShiftA tcell.Key = iota + keyShiftBase
+	KeyShiftA tcell.Key = iota + keyRuneBase + 'A' - '@'
 	KeyShiftB
 	KeyShiftC
 	KeyShiftD

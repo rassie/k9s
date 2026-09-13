@@ -287,21 +287,53 @@ func (a *App) Flash() *model.Flash {
 // AsKey converts rune to keyboard key.
 // AsKey maps a key event onto the single integer space that KeyActions uses for
 // dispatch. Special keys (including tcell.KeyCtrl*) keep their tcell value;
-// printable runes are encoded so they cannot collide with that space. Notably
-// Shift+<letter> arrives as an uppercase rune with no modifier — tcell never
-// reports ModShift for printable runes (it cannot reliably tell shift from
-// caps-lock) — and is mapped into k9s' private shift-key range. Encoding it as
-// the raw rune ('A'-'Z' == 65-90) would alias tcell.KeyCtrlA..KeyCtrlZ, which
-// occupy that range since tcell v2.10. See keyShiftBase.
+// printable runes are encoded so they cannot collide with that space. Runes in
+// tcell's control-key band ('@', 'A'-'Z', '[', '\', ']', '^', '_') map into
+// k9s' private mirror of that band (see keyRuneBase); notably Shift+<letter>
+// arrives as an uppercase rune with no modifier, since tcell never reports
+// ModShift for printable runes.
+//
+// Ctrl chords are folded into tcell's control keys the way a legacy terminal
+// would have sent them. Terminals speaking kitty CSI-u or xterm modifyOtherKeys
+// (both enabled by tcell) report them as a rune with ModCtrl, possibly combined
+// with Shift or Alt, and tcell only folds plain Ctrl+<letter> itself.
+//
+// Events k9s cannot bind map to tcell.KeyRune, which no action uses: Ctrl
+// chords without a legacy control code, Alt or Meta chords on runes, and
+// non-ASCII runes. Their raw values would alias the private key range, tcell's
+// special keys or, truncated to int16, the control keys.
 func AsKey(evt *tcell.EventKey) tcell.Key {
 	if evt.Key() != tcell.KeyRune {
 		return evt.Key()
 	}
-	if evt.Modifiers() == tcell.ModAlt {
-		return tcell.Key(int16(evt.Rune()) * int16(evt.Modifiers()))
+	r, mod := evt.Rune(), evt.Modifiers()
+	if mod&tcell.ModCtrl != 0 {
+		if k, ok := ctrlKey(r); ok {
+			return k
+		}
+		return tcell.KeyRune
 	}
-	if r := evt.Rune(); r >= 'A' && r <= 'Z' {
-		return KeyShiftA + tcell.Key(r-'A')
+	if mod&(tcell.ModAlt|tcell.ModMeta) != 0 || r > 0x7F {
+		return tcell.KeyRune
 	}
-	return tcell.Key(evt.Rune())
+	if r >= '@' && r <= '_' {
+		return keyRuneBase + tcell.Key(r-'@')
+	}
+	return tcell.Key(r)
+}
+
+// ctrlKey returns the control key a legacy terminal sends for Ctrl+r.
+func ctrlKey(r rune) (tcell.Key, bool) {
+	switch {
+	case r >= 'a' && r <= 'z':
+		return tcell.KeyCtrlA + tcell.Key(r-'a'), true
+	case r == ' ':
+		return tcell.KeyCtrlSpace, true
+	case r == '[':
+		return tcell.KeyEscape, true
+	case r >= '@' && r <= '_':
+		return tcell.KeyCtrlSpace + tcell.Key(r-'@'), true
+	default:
+		return 0, false
+	}
 }
